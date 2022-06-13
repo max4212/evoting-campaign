@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import CampaignService from '../services/UserService';
 import CampaignService from '../services/CampaignService'; 
-import CampaignService from '../services/OptionService';
-import CampaignService from '../services/VoterService;
 
 class AddCampaign extends Component {
     constructor(props) {
