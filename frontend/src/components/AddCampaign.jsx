@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import CampaignService from '../services/CampaignService';
+import CampaignService from '../services/UserService';
+import CampaignService from '../services/CampaignService'; 
+import CampaignService from '../services/OptionService';
+import CampaignService from '../services/VoterService;
 
 class AddCampaign extends Component {
     constructor(props) {
@@ -8,10 +11,14 @@ class AddCampaign extends Component {
         this.state = {
             id: this.props.match.params.id,
             campaignName: '',
-            deadline: ''
+            deadline: '',
+            option: '',
+            voter: ''
         }
         this.changeNameHandler = this.changeNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
+        this.changeOptionHandler = this.changeOptionHandler.bind(this);
+        this.changeVoterHandler = this.changeVoterHandler.bind(this);
         this.saveCampaign = this.saveCampaign.bind(this);
     }
 
@@ -23,7 +30,9 @@ class AddCampaign extends Component {
             CampaignService.getCampaignById(this.state.id).then( (res) =>{
                 let campaign = res.data;
                 this.setState({campaignName: campaign.campaignName,
-                    deadline: campaign.deadline
+                    deadline: campaign.deadline,
+                    option: campaign.option,
+                    voter: campaign.voter
                 });
             });
         }        
@@ -34,11 +43,11 @@ class AddCampaign extends Component {
         console.log('campaign => ' + JSON.stringify(campaign));
 
         if(this.state.id === '_add'){
-            CampaignService.createCampaign(campaign).then(res =>{
+            CampaignService.addCampaign(campaign).then(res =>{
                 this.props.history.push('/campaigns');
             });
         }else{
-            CampaignService.updateCampaign(campaign, this.state.id).then( res => {
+            CampaignService.editCampaign(campaign, this.state.id).then( res => {
                 this.props.history.push('/campaigns');
             });
         }
