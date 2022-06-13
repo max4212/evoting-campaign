@@ -17,8 +17,6 @@ class AddCampaign extends Component {
         }
         this.changeNameHandler = this.changeNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
-        this.changeOptionHandler = this.changeOptionHandler.bind(this);
-        this.changeVoterHandler = this.changeVoterHandler.bind(this);
         this.saveCampaign = this.saveCampaign.bind(this);
     }
 
@@ -30,9 +28,7 @@ class AddCampaign extends Component {
             CampaignService.getCampaignById(this.state.id).then( (res) =>{
                 let campaign = res.data;
                 this.setState({campaignName: campaign.campaignName,
-                    deadline: campaign.deadline,
-                    option: campaign.option,
-                    voter: campaign.voter
+                    deadline: campaign.deadline
                 });
             });
         }        
