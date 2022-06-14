@@ -79,13 +79,6 @@ public class UserController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @DeleteMapping("/users/{id}")
-  public ResponseEntity<HttpStatus> deleteAllUsers() {
-    userRepository.deleteAll();
-    
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-
   @GetMapping("/users/0")
   public ResponseEntity<List<User>> findByUserType() {
     List<User> users = userRepository.findByUserType(0);
