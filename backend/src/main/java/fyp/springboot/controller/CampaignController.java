@@ -31,7 +31,7 @@ public class CampaignController {
   @Autowired
   private CampaignRepository campaignRepository;
 
-  @GetMapping("/users/{id}/campaigns/{id}")
+  @GetMapping("/users/{id}/campaigns")
   public ResponseEntity<List<Campaign>> getAllCampaignsByUserId(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("User " + id + " Not Found");
@@ -49,7 +49,7 @@ public class CampaignController {
     return new ResponseEntity<>(campaign, HttpStatus.OK);
   }
 
-  @PostMapping("/users/{id}/campaign/{id}")
+  @PostMapping("/users/{id}/campaigns")
   public ResponseEntity<Campaign> addCampaignWithUser(@PathVariable(value = "id") Long id,
       @RequestBody Campaign campaignRequest) {
     Campaign campaign = userRepository.findById(id).map(user -> {
@@ -80,7 +80,7 @@ public class CampaignController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
   
-  @DeleteMapping("/deletedUser/{id}/deleteCampaigns/{id}")
+  @DeleteMapping("/users/{id}/campaigns")
   public ResponseEntity<List<Campaign>> deleteCampaignByUser(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("User " + id + " Not Found");
