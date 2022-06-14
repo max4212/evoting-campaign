@@ -35,7 +35,7 @@ public class VoterController {
   @Autowired
   private VoterRepository voterRepository;
 
-  @GetMapping("/users/{id}/voters/{id}")
+  @GetMapping("/users/{id}/voters")
   public ResponseEntity<List<Voter>> getAllVotersByUserId(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("User " + id + " Not Found");
@@ -45,7 +45,7 @@ public class VoterController {
     return new ResponseEntity<>(voters, HttpStatus.OK);
   }
 
-  @GetMapping("/campaigns/{id}/voters/{id}")
+  @GetMapping("/campaigns/{id}/voters")
   public ResponseEntity<List<Voter>> getAllVotersByCamapaignId(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("Campaign " + id + " Not Found");
@@ -63,7 +63,7 @@ public class VoterController {
     return new ResponseEntity<>(voter, HttpStatus.OK);
   }
 
-  @PostMapping("/campaigns/{id}/voters/{id}")
+  @PostMapping("/campaigns/{id}/voters")
   public ResponseEntity<Voter> addVoterToCampaign(@PathVariable(value = "id") Long id,
       @RequestBody Voter voterRequest) {
     Voter voter = campaignRepository.findById(id).map(campaign -> {
@@ -81,7 +81,7 @@ public class VoterController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
   
-  @DeleteMapping("/deletedUser/{id}/deleteVoters/{id}")
+  @DeleteMapping("/users/{id}/voters")
   public ResponseEntity<List<Voter>> deleteVoterByUser(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("User " + id + " Not Found");
@@ -91,7 +91,7 @@ public class VoterController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
   
-  @DeleteMapping("/deletedCampaign/{id}/deleteVoter/{id}")
+  @DeleteMapping("/campaigns/{id}/voters")
   public ResponseEntity<List<Voter>> deleteVoterByCampaign(@PathVariable(value = "id") Long id) {
     if (!userRepository.existsById(id)) {
       throw new ResourceNotFoundException("Campaign " + id + " Not Found");
