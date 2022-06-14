@@ -31,7 +31,7 @@ public class OptionController {
   @Autowired
   private OptionRepository optionRepository;
 
-  @GetMapping("/campaigns/{id}/options/{id}")
+  @GetMapping("/campaigns/{id}/options")
   public ResponseEntity<List<Option>> getAllOptionsByCampaignId(@PathVariable(value = "id") Long id) {
     if (!campaignRepository.existsById(id)) {
       throw new ResourceNotFoundException("Campaign " + id + " Not Found");
@@ -49,7 +49,7 @@ public class OptionController {
     return new ResponseEntity<>(option, HttpStatus.OK);
   }
 
-  @PostMapping("/campaigns/{id}/options/{id}")
+  @PostMapping("/campaigns/{id}/options")
   public ResponseEntity<Option> addOptionToCampaign(@PathVariable(value = "id") Long id,
       @RequestBody Option optionRequest) {
     Option option = campaignRepository.findById(id).map(campaign -> {
@@ -79,7 +79,7 @@ public class OptionController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
   
-  @DeleteMapping("/deletedCampaign/{id}/deleteOptions/{id}")
+  @DeleteMapping("/campaigns/{id}/options")
   public ResponseEntity<List<Option>> deleteOptionsInCampaign(@PathVariable(value = "id") Long id) {
     if (!campaignRepository.existsById(id)) {
       throw new ResourceNotFoundException("Campaign " + id + " Not Found");
