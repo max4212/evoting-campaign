@@ -1,92 +1,71 @@
-package fyp.springboot.controller;
+package fyp.evoting.backend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import fyp.springboot.exception.ResourceNotFoundException;
-import fyp.springboot.entity.Campaign;
-import fyp.springboot.repository.CampaignRepository;
-import fyp.springboot.repository.UserRepository;
+import fyp.evoting.backend.exception.ResourceNotFoundException;
+import fyp.evoting.backend.model.Campaign;
+import fyp.evoting.backend.repository.CampaignRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/")
 public class CampaignController {
 
-  @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private CampaignRepository campaignRepository;
-
-  @GetMapping("/users/{id}/campaigns")
-  public ResponseEntity<List<Campaign>> getAllCampaignsByUserId(@PathVariable(value = "id") Long id) {
-    if (!userRepository.existsById(id)) {
-      throw new ResourceNotFoundException("User " + id + " Not Found");
-    }
-
-    List<Campaign> campaigns = campaignRepository.findByUserId(id);
-    return new ResponseEntity<>(campaigns, HttpStatus.OK);
-  }
-
-  @GetMapping("/campaigns/{id}")
-  public ResponseEntity<Campaign> getCampaignById(@PathVariable(value = "id") Long id) {
-    Campaign campaign = campaignRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
-
-    return new ResponseEntity<>(campaign, HttpStatus.OK);
-  }
-
-  @PostMapping("/users/{id}/campaigns")
-  public ResponseEntity<Campaign> addCampaignWithUser(@PathVariable(value = "id") Long id,
-      @RequestBody Campaign campaignRequest) {
-    Campaign campaign = userRepository.findById(id).map(user -> {
-      campaignRequest.setUser(user);
-      return campaignRepository.save(campaignRequest);
-    }).orElseThrow(() -> new ResourceNotFoundException("User " + id + " Not Found"));
-
-    return new ResponseEntity<>(campaign, HttpStatus.CREATED);
-  }
-
-  @PutMapping("/campaigns/{id}")
-  public ResponseEntity<Campaign> editCampaign(@PathVariable("id") long id, @RequestBody Campaign campaignRequest) {
-    Campaign campaign = campaignRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
-
-    campaign.setCampaignName(campaignRequest.getCampaignName());
-    campaign.setDeadline(campaignRequest.getDeadline());
-    campaign.setUser(campaignRequest.getUser());
-    campaign.setStatus(campaignRequest.initStatus());
-
-    return new ResponseEntity<>(campaignRepository.save(campaign), HttpStatus.OK);
-  }
-
-  @DeleteMapping("/campaigns/{id}")
-  public ResponseEntity<HttpStatus> deleteCampaign(@PathVariable("id") long id) {
-    campaignRepository.deleteById(id);
-
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-  
-  @DeleteMapping("/users/{id}/campaigns")
-  public ResponseEntity<List<Campaign>> deleteCampaignByUser(@PathVariable(value = "id") Long id) {
-    if (!userRepository.existsById(id)) {
-      throw new ResourceNotFoundException("User " + id + " Not Found");
-    }
-
-    campaignRepository.deleteByUserId(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
+	@Autowired
+	private CampaignRepository campaignRepository;
+	
+	// get all campaigns
+	@GetMapping("/campaigns")
+	public List<Campaign> getAllCampaigns(){
+		return campaignRepository.findAll();
+	}		
+	
+	// create campaign rest api
+	@PostMapping("/campaigns")
+	public Campaign createCampaign(@RequestBody Campaign campaign) {
+		return campaignRepository.save(campaign);
+	}
+	
+	// get campaign by id rest api
+	@GetMapping("/campaigns/{id}")
+	public ResponseEntity<Campaign> getCampaignById(@PathVariable Long id) {
+		Campaign campaign = campaignRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Campaign not exist with id :" + id));
+		return ResponseEntity.ok(campaign);
+	}
+	
+	// update campaign rest api
+	
+	@PutMapping("/campaigns/{id}")
+	public ResponseEntity<Campaign> updateCampaign(@PathVariable Long id, @RequestBody Campaign campaignDetails){
+		Campaign campaign = campaignRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Campaign not exist with id :" + id));
+		
+		campaign.setCampaignName(campaignDetails.getCampaignName());
+		campaign.setDeadline(campaignDetails.getDeadline());
+		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
+		
+		Campaign updatedCampaign = campaignRepository.save(campaign);
+		return ResponseEntity.ok(updatedCampaign);
+	}
+	
+	// delete campaign rest api
+	@DeleteMapping("/campaigns/{id}")
+	public ResponseEntity<Map<String, Boolean>> deleteCampaign(@PathVariable Long id){
+		Campaign campaign = campaignRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Campaign not exist with id :" + id));
+		
+		campaignRepository.delete(campaign);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return ResponseEntity.ok(response);
+	}
+	
+	
 }
