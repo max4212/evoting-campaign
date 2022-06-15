@@ -1,28 +1,32 @@
 import React from 'react';
+import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import CampaignList from './components/CampaignList';
-import HostHeader from './components/HostHeader';
-import AddCampaign from './components/AddCampaign';
-import EditCampaign from './components/EditCampaign';
-import ViewCampaign from './components/ViewCampaign';
+import ListUserComponent from './components/ListUserComponent';
+import HeaderComponent from './components/HeaderComponent';
+import FooterComponent from './components/FooterComponent';
+import CreateUserComponent from './components/CreateUserComponent';
+import UpdateUserComponent from './components/UpdateUserComponent';
+import ViewUserComponent from './components/ViewUserComponent';
 
 function App() {
   return (
     <div>
-      <Router>
-        <HostHeader />
-        <div className="container">
-          <Switch> 
-            <Route path = "/" exact component = {CampaignList}></Route>
-            <Route path = "/campaigns" component = {CampaignList}></Route>
-            <Route path = "/add-campaigns/:id" component = {AddCampaign}></Route>
-            <Route path = "/view-campaigns/:id" component = {ViewCampaign}></Route>
-            <Route path = "/edit-campaigns/:id" component = {EditCampaign}></Route>
-          </Switch>
-        </div>
-      </Router>
+        <Router>
+              <HeaderComponent />
+                <div className="container">
+                    <Switch> 
+                          <Route path = "/" exact component = {ListUserComponent}></Route>
+                          <Route path = "/users" component = {ListUserComponent}></Route>
+                          <Route path = "/add-user/:id" component = {CreateUserComponent}></Route>
+                          <Route path = "/view-user/:id" component = {ViewUserComponent}></Route>
+                          <Route path = "/update-user/:id" component = {UpdateUserComponent}></Route> 
+                    </Switch>
+                </div>
+              <FooterComponent />
+        </Router>
     </div>
+    
   );
 }
 
