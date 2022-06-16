@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import fyp.evoting.backend.exception.ResourceNotFoundException;
 import fyp.evoting.backend.model.Campaign;
 import fyp.evoting.backend.model.CampaignStatus;
+import fyp.evoting.backend.model.Option;
 import fyp.evoting.backend.model.User;
 import fyp.evoting.backend.model.Voter;
 import fyp.evoting.backend.repository.CampaignRepository;
@@ -33,10 +34,15 @@ public class CampaignController {
 		return campaignRepository.findAll();
 	}		
 	
-	// create campaign rest api
-	@PostMapping("/campaigns")
-	public Campaign createCampaign(@RequestBody Campaign campaign) {
-		return campaignRepository.save(campaign);
+	// create campaign in user rest api
+	@PostMapping("/users/{user_id}/campaigns")
+	public Campaign createCampaign(@PathVariable(value = "user_id") Long user_id, @RequestBody Campaign campaignRequest) {
+	    Campaign campaign = userRepository.findById(user_id).map(user -> {
+	    	campaignRequest.setUser(user);
+	    	return campaignRepository.save(campaignRequest);
+	    }).orElseThrow(() -> new ResourceNotFoundException("User " + user_id + " Not Found"));
+	
+	    return campaignRepository.save(campaign);
 	}
 	
 	// get campaign by id rest api
@@ -58,7 +64,7 @@ public class CampaignController {
 	    return ResponseEntity.ok(campaigns);
 	}
 	
-	// get all open campaigns rest api
+	// get campaign by campaignStatus rest api
 	@GetMapping("/campaigns/findByCampaignStatus/{campaignStatus}")
 	public List<Campaign> findByCampaignStatus(@PathVariable("campaignStatus") CampaignStatus campaignStatus) {
 		return campaignRepository.findByCampaignStatus(campaignStatus);
