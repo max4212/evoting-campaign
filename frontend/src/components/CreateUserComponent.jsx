@@ -6,7 +6,6 @@ class CreateUserComponent extends Component {
         super(props)
 
         this.state = {
-            // step 2
             id: this.props.match.params.id,
             userName: '',
             userPW: '',
@@ -18,10 +17,8 @@ class CreateUserComponent extends Component {
         this.saveOrUpdateUser = this.saveOrUpdateUser.bind(this);
     }
 
-    // step 3
     componentDidMount(){
 
-        // step 4
         if(this.state.id === '_add'){
             return
         }else{
@@ -40,7 +37,6 @@ class CreateUserComponent extends Component {
         let user = {userName: this.state.userName, userPW: this.state.userPW, email: this.state.email, userType: this.state.userType};
         console.log('user => ' + JSON.stringify(user));
 
-        // step 5
         if(this.state.id === '_add'){
             UserService.createUser(user).then(res =>{
                 this.props.history.push('/users');

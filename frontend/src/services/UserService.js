@@ -16,6 +16,10 @@ class UserService {
         return axios.get(USER_API_BASE_URL + '/' + userId);
     }
 
+    getAllVoters(){
+        return axios.get(USER_API_BASE_URL + '/findByUserType/Voter');
+    }
+
     updateUser(user, userId){
         return axios.put(USER_API_BASE_URL + '/' + userId, user);
     }
