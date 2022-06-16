@@ -17,19 +17,22 @@ public class Option {
 	@Column(name="option_desc", nullable = false)
 	private String optionDesc;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "tutorial_id", nullable = false)
+	@JoinColumn(name = "campaign_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Campaign campaign;
+	@Column(name="vote_count", nullable = false)
+	private long voteCount = 0;
 	
 	public Option() {
 		
 	}
 	
-	public Option(String optionDesc, Campaign campaign) {
+	public Option(String optionDesc, Campaign campaign, long voteCount) {
 		super();
 		this.optionDesc = optionDesc;
 		this.campaign = campaign;	
+		this.voteCount = voteCount;
 	}
 	
 	public long getId() {
@@ -49,6 +52,12 @@ public class Option {
 	}
 	public void setCampaign(Campaign campaign) {
 		this.campaign = campaign;
+	}
+	public long getVoteCount() {
+		return voteCount;
+	}
+	public void setVoteCount(long voteCount) {
+		this.voteCount = voteCount;
 	}
 	
 }

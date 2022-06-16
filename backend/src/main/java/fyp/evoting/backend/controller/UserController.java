@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import fyp.evoting.backend.exception.ResourceNotFoundException;
 import fyp.evoting.backend.model.User;
+import fyp.evoting.backend.model.UserType;
 import fyp.evoting.backend.repository.UserRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,21 +37,20 @@ public class UserController {
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException("User " + id + " Not Found"));
 		return ResponseEntity.ok(user);
 	}
 	
-	// update user rest api
-	
+	// update user rest api	
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails){
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException("User " + id + " Not Found"));
 		
 		user.setUserName(userDetails.getUserName());
 		user.setUserPW(userDetails.getUserPW());
 		user.setEmail(userDetails.getEmail());
-//		user.setUserType(userDetails.getUserType());
+		user.setUserType(userDetails.getUserType());
 		
 		User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
@@ -60,7 +60,7 @@ public class UserController {
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id){
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException("User " + id + " Not Found"));
 		
 		userRepository.delete(user);
 		Map<String, Boolean> response = new HashMap<>();
@@ -68,5 +68,10 @@ public class UserController {
 		return ResponseEntity.ok(response);
 	}
 	
+	// get by user type rest api
+	@GetMapping("/users/findByUserType/{userType}")
+    public List<User> findAllVoters(@PathVariable("UserType") UserType userType) {
+        return userRepository.findByUserType(userType);
+    }
 	
 }

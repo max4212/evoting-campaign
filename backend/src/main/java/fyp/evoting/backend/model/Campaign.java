@@ -13,7 +13,7 @@ import java.util.*;
 @Table(name="campaigns")
 public class Campaign {
 	@Id
-	@Column(name="user_id")
+	@Column(name="campaign_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@Column(name="campaign_name", nullable = false)
@@ -24,7 +24,7 @@ public class Campaign {
 	@Enumerated(EnumType.ORDINAL)
     private CampaignStatus campaignStatus = CampaignStatus.Open;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "tutorial_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	User user;
