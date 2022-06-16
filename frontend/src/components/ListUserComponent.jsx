@@ -35,22 +35,12 @@ class ListUserComponent extends Component {
         this.props.history.push('/add-user/_add');
     }
     
-    campaigns(){
-        this.props.history.push('/campaigns');
-    }
-
-    addCampaign(){
-        this.props.history.push('/add-campaign/_add');
-    }
-
     render() {
         return (
             <div>
                  <h2 className="text-center">Users List</h2>
                  <div className = "row">
                     <button className="btn btn-primary" onClick={this.addUser}> Add User</button>
-                    <button className="btn btn-primary" onClick={this.campaigns}> Campaign List</button>
-                    <button className="btn btn-primary" onClick={this.addCampaign}> Add Campaign</button>
                  </div>
                  <br></br>
                  <div className = "row">
