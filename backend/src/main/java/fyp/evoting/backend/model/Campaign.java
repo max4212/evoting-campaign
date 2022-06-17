@@ -24,7 +24,7 @@ public class Campaign {
 	private Date deadline;
 	@Column(name="campaign_status")
 	@Enumerated(EnumType.ORDINAL)
-    private CampaignStatus campaignStatus = CampaignStatus.Open;
+   	private CampaignStatus campaignStatus = CampaignStatus.Open;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
