@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CampaignService from '../services/CampaignService';
 import OptionService from '../services/OptionService';
+import VoterService from '../services/VoterService';
 
 class UpdateCampaignComponent extends Component {
     constructor(props) {
@@ -10,11 +11,15 @@ class UpdateCampaignComponent extends Component {
             id: this.props.match.params.id,
             campaignName: '',
             deadline: '',
-            campaignStatus: ''
+            campaignStatus: '',
+            optionDesc: '',
+            voting: ''
         }
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
-        this.updateCampaign = this.updateCampaign.bind(this);
+        this.changeCampaignStatusHandler = this.changeCampaignStatusHandler.bind(this);
+        this.changeOptionDescHandler = this.changeOptionDescHandler.bind(this);
+        this.saveOrUpdateCampaign = this.saveOrUpdateCampaign.bind(this);
     }
 
     componentDidMount(){
@@ -25,14 +30,26 @@ class UpdateCampaignComponent extends Component {
                 campaignStatus : campaign.campaignStatus
             });
         });
+        OptionService.getOptionById(this.state.id).then( (res) =>{
+            let option = res.data;
+            this.setState({optionDesc: option.optionDesc});
+        });
+        VoterService.getVoterById(this.state.id).then( (res) =>{
+            let voter = res.data;
+            this.setState({voting: voter.voting});
+        });
     }
 
     updateCampaign = (e) => {
         e.preventDefault();
         let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus};
+        let option = {optionDesc: this.state.optionDesc};
+        let voter = {voter: this.state.voting};
         console.log('campaign => ' + JSON.stringify(campaign));
         console.log('id => ' + JSON.stringify(this.state.id));
         CampaignService.updateCampaign(campaign, this.state.id).then( res => {
+            OptionService.createOption(option, this.state.id);
+            VoterService.createVoter(voter, this.state.id);
             this.props.history.push('/campaigns');
         });
     }
@@ -47,6 +64,14 @@ class UpdateCampaignComponent extends Component {
 
     changeCampaignStatusHandler= (event) => {
         this.setState({campaignStatus: event.target.value});
+    }
+    
+    changeOptionDescHandler= (event) => {
+        this.setState({optionDesc: event.target.value});
+    }
+
+    addVoterHandler= (event) => {
+        this.setState({voting: event.target.value});
     }
 
     cancel(){
@@ -77,6 +102,16 @@ class UpdateCampaignComponent extends Component {
                                             <label> Campaign Status: </label>
                                             <input placeholder="Campaign Status" name="campaignStatus" className="form-control" 
                                                 value={this.state.campaignStatus} onChange={this.changeCampaignStatusHandler}/>
+                                        </div>
+                                        <div className = "form-group">
+                                            <label> Option: </label>
+                                            <input placeholder="Option" name="optionDesc" className="form-control" 
+                                                value={this.state.optionDesc} onChange={this.changeOptionDescHandler}/>
+                                        </div>
+                                        <div className = "form-group">
+                                            <label> Voter ID: </label>
+                                            <input placeholder="Voter ID" name="voting" className="form-control" 
+                                                value={this.state.voting} onChange={this.addVoterHandler}/>
                                         </div>
 
                                         <button className="btn btn-success" onClick={this.updateCampaign}>Save</button>
