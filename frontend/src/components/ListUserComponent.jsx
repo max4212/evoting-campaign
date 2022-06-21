@@ -35,14 +35,6 @@ class ListUserComponent extends Component {
         this.props.history.push('/add-user/_add');
     }
     
-    campaigns(){
-        this.props.history.push('/campaigns');
-    }
-
-    addCampaign(){
-        this.props.history.push('/add-campaign/_add');
-    }
-
     render() {
         return (
             <div>
