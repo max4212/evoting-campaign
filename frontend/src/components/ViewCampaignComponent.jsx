@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import CampaignService from '../services/CampaignService'
+import OptionService from '../services/OptionService'
+import VoterService from '../services/VoterService'
 
 class ViewCampaignComponent extends Component {
     constructor(props) {
@@ -7,13 +9,21 @@ class ViewCampaignComponent extends Component {
 
         this.state = {
             id: this.props.match.params.id,
-            campaign: {}
+            campaign: {},
+            option: {},
+            voter: {}
         }
     }
 
     componentDidMount(){
         CampaignService.getCampaignById(this.state.id).then( res => {
             this.setState({campaign: res.data});
+        })
+        OptionService.getOptionsByCampaign(this.state.id).then( res => {
+            this.setState({option: res.data});
+        })
+        VoterService.getVotersByCampaign(this.state.id).then( res => {
+            this.setState({voter: res.data});
         })
     }
 
@@ -35,6 +45,14 @@ class ViewCampaignComponent extends Component {
                         <div className = "row">
                             <label> Campaign Status: </label>
                             <div> { this.state.campaign.campaignStatus }</div>
+                        </div>
+                        <div className = "row">
+                            <label> Options: </label>
+                            <div> { this.state.option.optionDesc }</div>
+                        </div>
+                        <div className = "row">
+                            <label> Voter ID: </label>
+                            <div> { this.state.voter.user_id }</div>
                         </div>
                     </div>
 
