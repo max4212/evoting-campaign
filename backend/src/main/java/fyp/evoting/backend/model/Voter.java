@@ -26,6 +26,7 @@ public class Voter {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Campaign campaign;
+	
 	@Column(name="vote_status")
 	@Enumerated(EnumType.ORDINAL)
     private VoteStatus voteStatus = VoteStatus.Pending;
@@ -62,7 +63,7 @@ public class Voter {
 	public VoteStatus getVoteStatus() {
 		return voteStatus;
 	}
-	public void setVoteStatus(VoteStatus votetStatus) {
+	public void setVoteStatus(VoteStatus voteStatus) {
 		this.voteStatus = voteStatus;
 	}
 	

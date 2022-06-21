@@ -13,6 +13,10 @@ class CampaignService {
         return axios.get(USER_API_BASE_URL + '/' + userId + '/campaigns');
     }
 
+    createCampaignTest(campaign){
+        return axios.post(USER_API_BASE_URL + '/campaigns', campaign);
+    }
+
     createCampaign(userId, campaign){
         return axios.post(USER_API_BASE_URL + '/' + userId + '/campaigns', campaign);
     }
@@ -35,6 +39,10 @@ class CampaignService {
 
     deleteCampaign(campaignId){
         return axios.delete(CAMPAIGN_API_BASE_URL + '/' + campaignId);
+    }
+
+    launchCampaign(campaignId){
+        return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/launchCampaign/Pending');
     }
 }
 

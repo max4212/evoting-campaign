@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.*;
@@ -19,6 +20,7 @@ public class Campaign {
 	@Column(name="campaign_name", nullable = false)
 	private String campaignName;
 	@Column(name="closing_date", nullable = false)	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date deadline;
 	@Column(name="campaign_status")
 	@Enumerated(EnumType.ORDINAL)

@@ -60,6 +60,24 @@ public class OptionController {
 		return ResponseEntity.ok(updatedOption);
 	}
 
+	// increment the selected option's vote count by one rest api
+	@PutMapping("/campaigns/{campaign_id}/options")
+	public ResponseEntity<List<Option>> voteOption(@PathVariable(value = "campaign_id") Long campaign_id, @RequestBody String choice){
+		if (!campaignRepository.existsById(campaign_id)) {
+		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
+		    }
+		
+		List<Option> options = optionRepository.findByCampaignId(campaign_id);
+		for (int i = 0; i < options.size(); i++) {
+		    if(choice.equalsIgnoreCase(options.get(i).getOptionDesc())) 
+		    {
+		    	options.get(i).setVoteCount(options.get(i).getVoteCount()+1);
+		    }
+		}
+		optionRepository.saveAll(options);
+		return ResponseEntity.ok(options);
+	}
+	
 	// delete option rest api
 	@DeleteMapping("/options/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteOption(@PathVariable Long id){
@@ -83,6 +101,5 @@ public class OptionController {
 	    response.put("deleted", Boolean.TRUE);
 	    return ResponseEntity.ok(response);
 	}
-	
 	
 }

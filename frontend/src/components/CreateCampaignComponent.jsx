@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CampaignService from '../services/CampaignService';
+import OptionService from '../services/OptionService';
 
 class CreateCampaignComponent extends Component {
     constructor(props) {
@@ -9,10 +10,12 @@ class CreateCampaignComponent extends Component {
             id: this.props.match.params.id,
             campaignName: '',
             deadline: '',
-            campaignStatus: ''
+            campaignStatus: '',
+            user_id: ''
         }
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
+        this.changeCampaignStatusHandler = this.changeCampaignStatusHandler.bind(this);
         this.saveOrUpdateCampaign = this.saveOrUpdateCampaign.bind(this);
     }
 
@@ -25,18 +28,19 @@ class CreateCampaignComponent extends Component {
                 let campaign = res.data;
                 this.setState({campaignName: campaign.campaignName,
                     deadline: campaign.deadline,
-                    campaignStatus : campaign.campaignStatus
+                    campaignStatus : campaign.campaignStatus,
+                    user_id : campaign.user_id
                 });
             });
         }        
     }
     saveOrUpdateCampaign = (e) => {
         e.preventDefault();
-        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus};
+        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus, user_id: this.state.user_id};
         console.log('campaign => ' + JSON.stringify(campaign));
 
         if(this.state.id === '_add'){
-            CampaignService.createCampaign(campaign).then(res =>{
+            CampaignService.createCampaignTest(campaign).then(res =>{
                 this.props.history.push('/campaigns');
             });
         }else{
@@ -60,6 +64,10 @@ class CreateCampaignComponent extends Component {
     
     changeCampaignStatusHandler= (event) => {
         this.setState({campaignStatus: event.target.value});
+    }
+    
+    changeUserIdHandler= (event) => {
+        this.setState({user_id: event.target.value});
     }
 
     cancel(){
@@ -92,13 +100,18 @@ class CreateCampaignComponent extends Component {
                                         </div>
                                         <div className = "form-group">
                                             <label> Closing Date: </label>
-                                            <input placeholder="Closing Date" name="deadline" className="form-control" 
+                                            <input placeholder="Closing Date" name="deadline" className="form-control" type="date"
                                                 value={this.state.deadline} onChange={this.changeDeadlineHandler}/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Campaign Status: </label>
                                             <input placeholder="Campaign Status" name="campaignStatus" className="form-control" 
                                                 value={this.state.campaignStatus} onChange={this.changeCampaignStatusHandler}/>
+                                        </div>
+                                        <div className = "form-group">
+                                            <label> Host ID (testing purpose only): </label>
+                                            <input placeholder="Host ID" name="user_id" className="form-control" 
+                                                value={this.state.user_id} onChange={this.changeUserIdHandler}/>
                                         </div>
 
                                         <button className="btn btn-success" onClick={this.saveOrUpdateCampaign}>Save</button>
