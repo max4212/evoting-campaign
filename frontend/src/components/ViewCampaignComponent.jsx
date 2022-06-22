@@ -54,6 +54,7 @@ class ViewCampaignComponent extends Component {
                             <label> Voter ID: </label>
                             <div> { this.state.voter.user_id }</div>
                         </div>
+            
                     </div>
 
                 </div>

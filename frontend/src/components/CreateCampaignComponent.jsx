@@ -11,12 +11,14 @@ class CreateCampaignComponent extends Component {
             id: this.props.match.params.id,
             campaignName: '',
             deadline: '',
+            hostId: '2',
             campaignStatus: '',
             optionDesc: '',
             voting: ''
         }
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
+        this.changeHostIdHandler = this.changeHostIdHandler.bind(this);
         this.changeCampaignStatusHandler = this.changeCampaignStatusHandler.bind(this);
         this.changeOptionDescHandler = this.changeOptionDescHandler.bind(this);
         this.saveOrUpdateCampaign = this.saveOrUpdateCampaign.bind(this);
@@ -31,11 +33,11 @@ class CreateCampaignComponent extends Component {
                 let campaign = res.data;
                 this.setState({campaignName: campaign.campaignName,
                     deadline: campaign.deadline,
-                    campaignStatus : campaign.campaignStatus,
-                    user_id : campaign.user_id
+                    hostId : campaign.hostId,
+                    campaignStatus : campaign.campaignStatus
                 });
             });
-            OptionService.getOptionById(this.state.id).then( (res) =>{
+/*            OptionService.getOptionById(this.state.id).then( (res) =>{
                 let option = res.data;
                 this.setState({optionDesc: option.optionDesc});
             });
@@ -43,25 +45,28 @@ class CreateCampaignComponent extends Component {
                 let voter = res.data;
                 this.setState({voting: voter.voting});
             });
-        }        
+*/        }        
     }
     saveOrUpdateCampaign = (e) => {
         e.preventDefault();
-        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus};
-        let option = {optionDesc: this.state.optionDesc};
-        let voter = {voter: this.state.voting};
+        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, hostId: this.state.hostId, campaignStatus: this.state.campaignStatus};
+//        let option = {optionDesc: this.state.optionDesc};
+//        let voter = {voter: this.state.voting};
         console.log('campaign => ' + JSON.stringify(campaign));
+        console.log(1);
 
         if(this.state.id === '_add'){
+            console.log(2);
             CampaignService.createCampaignTest(campaign).then(res =>{
-                OptionService.createOption(option);
-                VoterService.createVoter(voter);
-                this.props.history.push('/campaigns');
+                console.log(3);
+//                OptionService.createOption(option);
+//                VoterService.createVoter(voter);
+                  this.props.history.push('/campaigns');
             });
         }else{
             CampaignService.updateCampaign(campaign, this.state.id).then( res => {
-                OptionService.createOption(option, this.state.id);
-                VoterService.createVoter(voter, this.state.id);
+//                OptionService.createOption(option, this.state.id);
+//                VoterService.createVoter(voter, this.state.id);
                 this.props.history.push('/campaigns');
             });
         }
@@ -77,6 +82,10 @@ class CreateCampaignComponent extends Component {
 
     changeUserHandler= (event) => {
         this.setState({user: event.target.value});
+    }
+    
+    changeHostIdHandler= (event) => {
+        this.setState({hostId: event.target.value});
     }
     
     changeCampaignStatusHandler= (event) => {
@@ -123,6 +132,11 @@ class CreateCampaignComponent extends Component {
                                             <label> Closing Date: </label>
                                             <input placeholder="Closing Date" name="deadline" className="form-control" type="date"
                                                 value={this.state.deadline} onChange={this.changeDeadlineHandler}/>
+                                        </div>
+                                        <div className = "form-group">
+                                            <label> Host ID (for testing purpose only): </label>
+                                            <input placeholder="Host ID" name="hostId" className="form-control" 
+                                                value={this.state.hostId} onChange={this.changeHostIdHandler}/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Campaign Status: </label>

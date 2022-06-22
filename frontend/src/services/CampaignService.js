@@ -14,7 +14,7 @@ class CampaignService {
     }
 
     createCampaignTest(campaign){
-        return axios.post(USER_API_BASE_URL + '/campaigns', campaign);
+        return axios.post(CAMPAIGN_API_BASE_URL, campaign);
     }
 
     createCampaign(userId, campaign){
