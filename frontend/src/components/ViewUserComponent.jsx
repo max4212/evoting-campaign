@@ -9,10 +9,6 @@ class ViewUserComponent extends Component {
             id: this.props.match.params.id,
             user: {}
         }
-        this.getCampaignByUser = this.getCampaignByUser.bind(this);
-        this.addCampaign = this.addCampaign.bind(this);
-        this.editCampaign = this.editCampaign.bind(this);
-        this.deleteCampaign = this.deleteCampaign.bind(this);
     }
 
     componentDidMount(){
