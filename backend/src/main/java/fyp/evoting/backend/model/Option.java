@@ -14,13 +14,16 @@ public class Option {
 	@Column(name="option_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	@Column(name="option_desc", nullable = false)
 	private String optionDesc;
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "campaign_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Campaign campaign;
+	
 	@Column(name="vote_count", nullable = false)
 	private long voteCount = 0;
 	
