@@ -28,8 +28,8 @@ public class Voter {
 	Campaign campaign;
 	
 	@Column(name="vote_status")
-	@Enumerated(EnumType.ORDINAL)
-    private VoteStatus voteStatus = VoteStatus.Pending;
+	@Enumerated(EnumType.STRING)
+    	private VoteStatus voteStatus = VoteStatus.Pending;
 	
 	public Voter() {
 		
