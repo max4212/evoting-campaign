@@ -17,15 +17,19 @@ public class Campaign {
 	@Column(name="campaign_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	@Column(name="campaign_name", nullable = false)
 	private String campaignName;
+	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="closing_date", nullable = false)	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date deadline;
+	
 	@Column(name="campaign_status")
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
    	private CampaignStatus campaignStatus = CampaignStatus.Open;
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
