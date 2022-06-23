@@ -11,11 +11,19 @@ class CreateCampaignComponent extends Component {
             id: this.props.match.params.id,
             campaignName: '',
             deadline: '',
-            hostId: '2',
             campaignStatus: '',
             optionDesc: '',
             voting: ''
         }
+
+        this.userState = {
+            user_id: this.props.match.params.user_id,
+            userName: this.props.match.params.userName,
+            userPW: this.props.match.params.userPW,
+            email: this.props.match.params.email,
+            userType: this.props.match.params.userType
+        }
+
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
         this.changeHostIdHandler = this.changeHostIdHandler.bind(this);
@@ -33,7 +41,7 @@ class CreateCampaignComponent extends Component {
                 let campaign = res.data;
                 this.setState({campaignName: campaign.campaignName,
                     deadline: campaign.deadline,
-                    hostId : campaign.hostId,
+                    user_id : campaign.user_id,
                     campaignStatus : campaign.campaignStatus
                 });
             });
@@ -49,7 +57,8 @@ class CreateCampaignComponent extends Component {
     }
     saveOrUpdateCampaign = (e) => {
         e.preventDefault();
-        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, hostId: this.state.hostId, campaignStatus: this.state.campaignStatus};
+        let userState = {user_id: this.userState.user_id, userName: this.userState.userName, userPW: this.userState.userPW, email: this.userState.email, userType: this.userState.userType}
+        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus, user: userState};
 //        let option = {optionDesc: this.state.optionDesc};
 //        let voter = {voter: this.state.voting};
         console.log('campaign => ' + JSON.stringify(campaign));
@@ -85,7 +94,7 @@ class CreateCampaignComponent extends Component {
     }
     
     changeHostIdHandler= (event) => {
-        this.setState({hostId: event.target.value});
+        this.setState({user_id: event.target.value});
     }
     
     changeCampaignStatusHandler= (event) => {
@@ -132,11 +141,6 @@ class CreateCampaignComponent extends Component {
                                             <label> Closing Date: </label>
                                             <input placeholder="Closing Date" name="deadline" className="form-control" type="date"
                                                 value={this.state.deadline} onChange={this.changeDeadlineHandler}/>
-                                        </div>
-                                        <div className = "form-group">
-                                            <label> Host ID (for testing purpose only): </label>
-                                            <input placeholder="Host ID" name="hostId" className="form-control" 
-                                                value={this.state.hostId} onChange={this.changeHostIdHandler}/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Campaign Status: </label>

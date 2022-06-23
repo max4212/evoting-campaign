@@ -11,16 +11,16 @@ import ListCampaignComponent from './components/ListCampaignComponent';
 import CreateCampaignComponent from './components/CreateCampaignComponent';
 import UpdateCampaignComponent from './components/UpdateCampaignComponent';
 import ViewCampaignComponent from './components/ViewCampaignComponent';
-import AddOptionComponent from './components/AddOptionComponent';
 
 function App() {
+  
   return (
     <div>
         <Router>
               <HeaderComponent />
                 <div className="container">
                     <Switch> 
-                          <Route path = "/" exact component = {ListUserComponent}></Route>
+                          <Route path = "/" exact component = {ListCampaignComponent}></Route>
                           <Route path = "/users" component = {ListUserComponent}></Route>
                           <Route path = "/add-user/:id" component = {CreateUserComponent}></Route>
                           <Route path = "/view-user/:id" component = {ViewUserComponent}></Route>
@@ -29,10 +29,8 @@ function App() {
                           <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
                           <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
                           <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route> 
-                          <Route path = "/add-options" component = {AddOptionComponent}></Route> 
                     </Switch>
                 </div>
-              <FooterComponent />
         </Router>
     </div>
     
