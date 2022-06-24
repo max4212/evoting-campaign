@@ -9,6 +9,7 @@ class ListCampaignComponent extends Component {
                 campaigns: []
         }
         this.addCampaign = this.addCampaign.bind(this);
+        this.addOption = this.addOption.bind(this);
         this.editCampaign = this.editCampaign.bind(this);
         this.deleteCampaign = this.deleteCampaign.bind(this);
     }
@@ -18,14 +19,17 @@ class ListCampaignComponent extends Component {
             this.setState({campaigns: this.state.campaigns.filter(campaign => campaign.id !== id)});
         });
     }
+    
     viewCampaign(id){
         this.props.history.push(`/view-campaign/${id}`);
     }
+
     editCampaign(id){
         this.props.history.push(`/add-campaign/${id}`);
     }
+
     launchCampaign(id){
-        CampaignService.deleteCampaign(id).then( res => {
+        CampaignService.launchCampaign(id).then( res => {
             this.setState({campaigns: this.state.campaigns.filter(campaign => campaign.id !== id)});
         });
     }
@@ -39,7 +43,11 @@ class ListCampaignComponent extends Component {
     addCampaign(){
         this.props.history.push('/add-campaign/_add');
     }
-
+    
+    addOption(){
+        this.props.history.push('/add-option/_add');
+    }
+    
     render() {
         return (
             <div>
@@ -69,6 +77,7 @@ class ListCampaignComponent extends Component {
                                              <td> {campaign.campaignStatus}</td>
                                              <td>
                                                  <button onClick={ () => this.viewCampaign(campaign.id)} className="btn btn-info">View </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.addOption(campaign.id)} className="btn btn-info">Options </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.editCampaign(campaign.id)} className="btn btn-info">Update </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.launchCampaign(campaign.id)} className="btn btn-info">Launch </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.viewResults(campaign.id)} className="btn btn-info">Results </button>

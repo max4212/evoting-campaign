@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
+import UserService from '../services/UserService';
 import CampaignService from '../services/CampaignService';
-import OptionService from '../services/OptionService';
-import VoterService from '../services/VoterService';
 
 class CreateCampaignComponent extends Component {
     constructor(props) {
@@ -16,20 +15,9 @@ class CreateCampaignComponent extends Component {
             voting: ''
         }
 
-        this.userState = {
-            user_id: this.props.match.params.user_id,
-            userName: this.props.match.params.userName,
-            userPW: this.props.match.params.userPW,
-            email: this.props.match.params.email,
-            userType: this.props.match.params.userType,
-            optionDesc: this.props.match.params.optionDesc
-        }
-
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
         this.changeDeadlineHandler = this.changeDeadlineHandler.bind(this);
-        this.changeHostIdHandler = this.changeHostIdHandler.bind(this);
         this.changeCampaignStatusHandler = this.changeCampaignStatusHandler.bind(this);
-        this.changeOptionDescHandler = this.changeOptionDescHandler.bind(this);
         this.saveOrUpdateCampaign = this.saveOrUpdateCampaign.bind(this);
     }
 
@@ -46,35 +34,22 @@ class CreateCampaignComponent extends Component {
                     campaignStatus : campaign.campaignStatus
                 });
             });
-/*            OptionService.getOptionById(this.state.id).then( (res) =>{
-                let option = res.data;
-                this.setState({optionDesc: option.optionDesc});
-            });
-            VoterService.getVoterById(this.state.id).then( (res) =>{
-                let voter = res.data;
-                this.setState({voting: voter.voting});
-            });
-*/        }        
+        }        
     }
     saveOrUpdateCampaign = (e) => {
         e.preventDefault();
-        let userState = {user_id: this.userState.user_id, userName: this.userState.userName, userPW: this.userState.userPW, email: this.userState.email, userType: this.userState.userType}
-        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus, user: userState};
-//        let voter = {voter: this.state.voting};
+        UserService.getUserById(this.state.id).then( res => {
+            this.setState({user: res.data});
+        })
+        let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus, user: this.state.user};
         console.log('campaign => ' + JSON.stringify(campaign));
 
         if(this.state.id === '_add'){
             CampaignService.createCampaignTest(campaign).then(res =>{
-//                let option = {optionDesc: this.state.optionDesc, campaign: campaign};
-//                OptionService.createOption(option);
-//                VoterService.createVoter(voter);
                   this.props.history.push('/campaigns');
             });
         }else{
             CampaignService.updateCampaign(campaign, this.state.id).then( res => {
-//                let option = {optionDesc: this.state.optionDesc, campaign: campaign};
-//                OptionService.createOption(option, this.state.option_id);
-//                VoterService.createVoter(voter, this.state.voter_id);
                 this.props.history.push('/campaigns');
             });
         }
@@ -88,24 +63,8 @@ class CreateCampaignComponent extends Component {
         this.setState({deadline: event.target.value});
     }
 
-    changeUserHandler= (event) => {
-        this.setState({user: event.target.value});
-    }
-    
-    changeHostIdHandler= (event) => {
-        this.setState({user_id: event.target.value});
-    }
-    
     changeCampaignStatusHandler= (event) => {
         this.setState({campaignStatus: event.target.value});
-    }
-
-    changeOptionDescHandler= (event) => {
-        this.setState({optionDesc: event.target.value});
-    }
-
-    addVoterHandler= (event) => {
-        this.setState({voting: event.target.value});
     }
 
     cancel(){
@@ -146,17 +105,7 @@ class CreateCampaignComponent extends Component {
                                             <input placeholder="Campaign Status" name="campaignStatus" className="form-control" 
                                                 value={this.state.campaignStatus} onChange={this.changeCampaignStatusHandler}/>
                                         </div>
-                                        <div className = "form-group">
-                                            <label> Option: </label>
-                                            <input placeholder="Option" name="optionDesc" className="form-control" 
-                                                value={this.state.optionDesc} onChange={this.changeOptionDescHandler}/>
-                                        </div>
-                                        <div className = "form-group">
-                                            <label> Voter ID: </label>
-                                            <input placeholder="Voter ID" name="voting" className="form-control" 
-                                                value={this.state.voting} onChange={this.addVoterHandler}/>
-                                        </div>
-
+                                      
                                         <button className="btn btn-success" onClick={this.saveOrUpdateCampaign}>Save</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
                                     </form>

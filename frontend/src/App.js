@@ -11,6 +11,7 @@ import ListCampaignComponent from './components/ListCampaignComponent';
 import CreateCampaignComponent from './components/CreateCampaignComponent';
 import UpdateCampaignComponent from './components/UpdateCampaignComponent';
 import ViewCampaignComponent from './components/ViewCampaignComponent';
+import AddOptionsComponent from './components/AddOptionsComponent';
 
 function App() {
   
@@ -28,7 +29,8 @@ function App() {
                           <Route path = "/campaigns" component = {ListCampaignComponent}></Route>
                           <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
                           <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
-                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route> 
+                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route>
+                          <Route path = "/add-options/:id" component = {AddOptionsComponent}></Route> 
                     </Switch>
                 </div>
         </Router>
