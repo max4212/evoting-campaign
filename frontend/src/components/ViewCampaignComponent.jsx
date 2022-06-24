@@ -27,12 +27,17 @@ class ViewCampaignComponent extends Component {
         })
     }
 
+    back(){
+        this.props.history.push('/campaigns');
+    }
+
     render() {
         return (
             <div>
                 <br></br>
                 <div className = "card col-md-6 offset-md-3">
                     <h3 className = "text-center"> View Campaign Details</h3>
+                    <button className="btn btn-danger" onClick={this.back.bind(this)} style={{marginLeft: "10px",width: "100px"}}>Back</button>
                     <div className = "card-body">
                         <div className = "row">
                             <label> Campaign Name: </label>
@@ -76,7 +81,6 @@ class ViewCampaignComponent extends Component {
                                 </table>
                             </div>
                         </div>
-            
                     </div>
 
                 </div>

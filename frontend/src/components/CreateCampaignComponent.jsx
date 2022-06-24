@@ -36,6 +36,7 @@ class CreateCampaignComponent extends Component {
             });
         }        
     }
+    
     saveOrUpdateCampaign = (e) => {
         e.preventDefault();
         UserService.getUserById(this.state.id).then( res => {

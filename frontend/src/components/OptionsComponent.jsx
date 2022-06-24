@@ -7,7 +7,7 @@ class OptionsComponent extends Component {
         super(props)
 
         this.state = {
-            options: []
+            options: ['']
         }
         this.addOptionsHandler = this.addOptionsHandler.bind(this);
         this.removeOptionsHandler = this.removeOptionsHandler.bind(this);
@@ -21,9 +21,13 @@ class OptionsComponent extends Component {
         });
     }
 
-    addOptionsHandler = (event) => {}
+    addOptionsHandler = (event) => {
 
-    removeOptionsHandler = (event) => {}
+    }
+
+    removeOptionsHandler = (event) => {
+
+    }
 
     saveOrUpdateOptions = (e) => {
         e.preventDefault();
@@ -59,7 +63,7 @@ class OptionsComponent extends Component {
                    <div className = "container">
                         <div className = "row">
                             <div className = "card col-md-6 offset-md-3 offset-md-3">
-                                <h3 className="text-center">{ this.state.campaign.campaignName + ' '} Options</h3>
+                                <h3 className="text-center">{ ' < ' + this.state.campaign.campaignName + ' > '} Options</h3>
                                 <div className = "card-body">
                                     <form>
                                         <div className = "form-group">
@@ -68,8 +72,8 @@ class OptionsComponent extends Component {
                                                 option => 
                                                 <tr key = {option.id}>
                                                     <td> 
-                                                    <input placeholder="Option" name="optionDesc" className="form-control" 
-                                                    value={option.optionDesc} onChange={this.changeOptionDescHandler}/>
+                                                        <input placeholder="Option" name="optionDesc" className="form-control" 
+                                                        value={option.optionDesc} onChange={this.changeOptionDescHandler}/>
                                                     </td>
                                                 </tr>
                                             )
