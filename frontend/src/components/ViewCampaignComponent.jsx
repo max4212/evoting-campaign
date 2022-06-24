@@ -10,8 +10,8 @@ class ViewCampaignComponent extends Component {
         this.state = {
             id: this.props.match.params.id,
             campaign: {},
-            option: {},
-            voter: {}
+            option: [],
+            voter: []
         }
     }
 
@@ -48,11 +48,33 @@ class ViewCampaignComponent extends Component {
                         </div>
                         <div className = "row">
                             <label> Options: </label>
-                            <div> { this.state.option.optionDesc }</div>
+                            <div> 
+                                <table className="">
+                                    {
+                                        this.state.option.map(
+                                            option => 
+                                            <tr key = {option.id}>
+                                                <td> {option.optionDesc} </td>   
+                                            </tr>
+                                        )
+                                    }
+                                </table>
+                            </div>
                         </div>
                         <div className = "row">
                             <label> Voter ID: </label>
-                            <div> { this.state.voter.user_id }</div>
+                            <div> 
+                                <table className="">
+                                    {
+                                        this.state.voter.map(
+                                            voter => 
+                                            <tr key = {voter.id}>
+                                                <td> {voter.user} </td>   
+                                            </tr>
+                                        )
+                                    }
+                                </table>
+                            </div>
                         </div>
             
                     </div>

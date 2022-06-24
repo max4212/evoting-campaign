@@ -21,7 +21,8 @@ class CreateCampaignComponent extends Component {
             userName: this.props.match.params.userName,
             userPW: this.props.match.params.userPW,
             email: this.props.match.params.email,
-            userType: this.props.match.params.userType
+            userType: this.props.match.params.userType,
+            optionDesc: this.props.match.params.optionDesc
         }
 
         this.changeCampaignNameHandler = this.changeCampaignNameHandler.bind(this);
@@ -59,23 +60,21 @@ class CreateCampaignComponent extends Component {
         e.preventDefault();
         let userState = {user_id: this.userState.user_id, userName: this.userState.userName, userPW: this.userState.userPW, email: this.userState.email, userType: this.userState.userType}
         let campaign = {campaignName: this.state.campaignName, deadline: this.state.deadline, campaignStatus: this.state.campaignStatus, user: userState};
-//        let option = {optionDesc: this.state.optionDesc};
 //        let voter = {voter: this.state.voting};
         console.log('campaign => ' + JSON.stringify(campaign));
-        console.log(1);
 
         if(this.state.id === '_add'){
-            console.log(2);
             CampaignService.createCampaignTest(campaign).then(res =>{
-                console.log(3);
+//                let option = {optionDesc: this.state.optionDesc, campaign: campaign};
 //                OptionService.createOption(option);
 //                VoterService.createVoter(voter);
                   this.props.history.push('/campaigns');
             });
         }else{
             CampaignService.updateCampaign(campaign, this.state.id).then( res => {
-//                OptionService.createOption(option, this.state.id);
-//                VoterService.createVoter(voter, this.state.id);
+//                let option = {optionDesc: this.state.optionDesc, campaign: campaign};
+//                OptionService.createOption(option, this.state.option_id);
+//                VoterService.createVoter(voter, this.state.voter_id);
                 this.props.history.push('/campaigns');
             });
         }
