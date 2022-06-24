@@ -8,6 +8,7 @@ class ListCampaignComponent extends Component {
         this.state = {
                 campaigns: []
         }
+        
         this.addCampaign = this.addCampaign.bind(this);
         this.addOption = this.addOption.bind(this);
         this.editCampaign = this.editCampaign.bind(this);
