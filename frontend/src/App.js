@@ -30,7 +30,7 @@ function App() {
                           <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
                           <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
                           <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route>
-                          <Route path = "/options/:id" component = {OptionsComponent}></Route> 
+                          <Route path = "/options/:id" component = {OptionsComponent}></Route>
                     </Switch>
                 </div>
         </Router>

@@ -82,7 +82,7 @@ class ListCampaignComponent extends Component {
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.editCampaign(campaign.id)} className="btn btn-info">Update </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.launchCampaign(campaign.id)} className="btn btn-info">Launch </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.viewResults(campaign.id)} className="btn btn-info">Results </button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.deleteCampaign(campaign.id)} className="btn btn-danger">Delete </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => {if(window.confirm('Confirm to Delete?'))this.deleteCampaign(campaign.id)}} className="btn btn-danger">Delete </button>
                                              </td>
                                         </tr>
                                     )
