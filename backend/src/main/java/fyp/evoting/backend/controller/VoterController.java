@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import fyp.evoting.backend.exception.ResourceNotFoundException;
 import fyp.evoting.backend.model.Campaign;
 import fyp.evoting.backend.model.CampaignStatus;
+import fyp.evoting.backend.model.Option;
 import fyp.evoting.backend.model.User;
 import fyp.evoting.backend.model.UserType;
 import fyp.evoting.backend.model.Voter;
@@ -33,13 +34,16 @@ public class VoterController {
 	private UserRepository userRepository;	
 	
 	// create voters rest api
-	@PostMapping("/campaigns/{campaign_id}/voters")
-	public Voter createVoter(@PathVariable(value = "campaign_id") Long campaign_id, @RequestBody Voter voterRequest) {
+	@PostMapping("/campaigns/{campaign_id}/users/{user_id}")
+	public Voter createVoter(@PathVariable(value = "campaign_id") Long campaign_id, @PathVariable(value = "user_id") Long user_id, @RequestBody Voter voterRequest) {
 	    Voter voter = campaignRepository.findById(campaign_id).map(campaign -> {
-	    	voterRequest.setCampaign(campaign);
-	    	return voterRepository.save(voterRequest);
-	    }).orElseThrow(() -> new ResourceNotFoundException("Campaign " + campaign_id + " Not Found"));
-	
+			voterRequest.setCampaign(campaign);
+			userRepository.findById(user_id).map(user -> {
+				voterRequest.setUser(user);
+				return voterRepository.save(voterRequest);
+			}).orElseThrow(() -> new ResourceNotFoundException("User " + user_id + " Not Found"));
+			return voterRepository.save(voterRequest);
+		}).orElseThrow(() -> new ResourceNotFoundException("Campaign " + campaign_id + " Not Found"));
 	    return voterRepository.save(voter);
 	}
 	
@@ -75,6 +79,18 @@ public class VoterController {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
+	}
+	
+	// update option rest api	
+	@PutMapping("/voters/{id}")
+	public ResponseEntity<Voter> updateVoter(@PathVariable Long id, @RequestBody Voter voters){
+		Voter voter = voterRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Voter " + id + " Not Found"));
+
+		voter.setVoteStatus(voters.getVoteStatus());
+		
+		Voter updatedVoter = voterRepository.save(voter);
+		return ResponseEntity.ok(updatedVoter);
 	}
 	
 	//delete voter by campaign rest api
