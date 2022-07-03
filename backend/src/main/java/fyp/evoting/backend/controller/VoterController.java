@@ -81,7 +81,7 @@ public class VoterController {
 		return ResponseEntity.ok(response);
 	}
 	
-	// update option rest api	
+	// update voter rest api	
 	@PutMapping("/voters/{id}")
 	public ResponseEntity<Voter> updateVoter(@PathVariable Long id, @RequestBody Voter voters){
 		Voter voter = voterRepository.findById(id)

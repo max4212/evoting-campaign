@@ -55,6 +55,7 @@ public class OptionController {
 				.orElseThrow(() -> new ResourceNotFoundException("Option " + id + " Not Found"));
 		
 		option.setOptionDesc(options.getOptionDesc());
+		option.setVoteCount(options.getVoteCount());
 		
 		Option updatedOption= optionRepository.save(option);
 		return ResponseEntity.ok(updatedOption);
