@@ -21,7 +21,7 @@ public class User {
 	
 	@Column(name="user_type")
 	@Enumerated(EnumType.STRING)
-    	private UserType userType = UserType.Voter;
+    private UserType userType = UserType.Voter;
 	
 	public User() {
 		

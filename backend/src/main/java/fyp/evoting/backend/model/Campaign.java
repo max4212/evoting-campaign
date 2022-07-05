@@ -2,6 +2,9 @@ package fyp.evoting.backend.model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -23,7 +26,6 @@ public class Campaign {
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="closing_date", nullable = false)	
-	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date deadline;
 	
 	@Column(name="campaign_status")
@@ -34,20 +36,44 @@ public class Campaign {
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	User user;
+	private User user;
+	
+	@OneToMany(
+            mappedBy = "campaign",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 30)
+    private List<Option> options = new ArrayList<>();
+	
+	@OneToMany(
+            mappedBy = "campaign",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 30)
+    private List<Voter> voters = new ArrayList<>();
 	
 	public Campaign() {
 		
 	}
 	
-	public Campaign(String campaignName, Date deadline, CampaignStatus campaignStatus, User user) {
+	public Campaign(String campaignName, Date deadline, CampaignStatus campaignStatus, User user,
+			List<Option> options, List<Voter> voters) {
 		super();
 		this.campaignName = campaignName;
 		this.deadline = deadline;
 		this.campaignStatus = campaignStatus;
-		this.user = user;	
+		this.user = user;
+		this.options = options;
+		this.voters = voters;
 	}
-	
+
+
 	public long getId() {
 		return id;
 	}
@@ -78,5 +104,41 @@ public class Campaign {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
+	
+	public void addOption(Option option) {
+        options.add(option);
+        option.setCampaign(this);
+    }
+
+    public void removeOption(Option option) {
+        options.remove(option);
+        option.setCampaign(null);
+    }
+	
+	public List<Voter> getVoters() {
+        return voters;
+    }
+
+    public void setVoters(List<Voter> voters) {
+        this.voters = voters;
+    }
+	
+	public void addVoter(Voter voter) {
+        voters.add(voter);
+        voter.setCampaign(this);
+    }
+
+    public void removeVoter(Voter voter) {
+        voters.remove(voter);
+        voter.setCampaign(null);
+    }
 	
 }

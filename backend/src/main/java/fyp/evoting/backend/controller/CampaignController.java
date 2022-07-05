@@ -44,12 +44,6 @@ public class CampaignController {
 	
 	    return campaignRepository.save(campaign);
 	}
-
-	// create campaign test rest api
-	@PostMapping("/campaigns")
-	public Campaign testCreateCampaign(@RequestBody Campaign campaign) {
-		return campaignRepository.save(campaign);
-	}
 	
 	// get campaign by id rest api
 	@GetMapping("/campaigns/{id}")

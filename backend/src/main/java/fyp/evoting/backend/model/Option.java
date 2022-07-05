@@ -22,7 +22,7 @@ public class Option {
 	@JoinColumn(name = "campaign_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	Campaign campaign;
+	private Campaign campaign;
 	
 	@Column(name="vote_count", nullable = false)
 	private long voteCount = 0;
