@@ -46,7 +46,7 @@ class ListCampaignComponent extends Component {
     }
     
     addOption(){
-        this.props.history.push('/add-option/_add');
+        this.props.history.push('/options');
     }
     
     render() {

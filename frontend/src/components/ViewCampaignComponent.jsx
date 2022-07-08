@@ -74,7 +74,7 @@ class ViewCampaignComponent extends Component {
                                         this.state.voter.map(
                                             voter => 
                                             <tr key = {voter.id}>
-                                                <td> {voter.user} </td>   
+                                                <td> {voter.id} </td>   
                                             </tr>
                                         )
                                     }
