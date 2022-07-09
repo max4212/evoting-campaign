@@ -156,87 +156,14 @@ class CreateCampaignComponent extends Component {
         )
     }
 }
-
+/*
 function optionInput() {
-    const saveOptions = (e) => {
-        e.preventDefault();
-        OptionService.getOptionById(this.state.id).then( res => {
-            this.setState({option: res.data});
-        })
-        let option = {optionDesc: this.state.optionDesc, option: this.state.option};
-        console.log('option => ' + JSON.stringify(option));
 
-        OptionService.createOption(option).then(res =>{
-                this.props.history.push('/options');
-        });
-        OptionService.updateOption(option, this.state.id).then( res => {
-            this.props.history.push('/options');
-        });
-    
-    }
-	
-	const changeOptionDescHandler= (event) => {
-        this.setState({optionName: event.target.value});
-    }
-
-    const [formFields, setFormFields] = useState([
-        { optionDesc: '' },
-    ])
-
-    const handleFormChange = (event, index) => {
-        let data = [...formFields];
-        data[index][event.target.name] = event.target.value;
-        setFormFields(data);
-    }
-
-    const submit = (e) => {
-        e.preventDefault();
-        console.log(formFields)
-    }
-
-    const addFields = () => {
-        let object = {
-        optionDesc: ''
-        }
-
-        setFormFields([...formFields, object])
-    }
-
-    const removeFields = (index) => {
-        let data = [...formFields];
-        data.splice(index, 1)
-        setFormFields(data)
-    }
-
-    return (
-        <div className="App">
-        <form onSubmit={submit}>
-            {formFields.map((form, index) => {
-            return (
-                <div key={index}>
-                <br/>
-                <input
-                    name='optionDesc'
-                    placeholder='Option'
-                    onChange={event => handleFormChange(event, index)}
-                    value={form.age}
-                />
-                <button style={{marginLeft: "10px"}} onClick={addFields} className="btn btn-info">Add</button>
-                <button style={{marginLeft: "10px"}} onClick={() => removeFields(index)} className="btn btn-danger" >Remove</button>
-                </div>
-            )
-            })}
-        </form>
-        <br/>
-        <button onClick={addFields} className="btn btn-info">Add Option</button>
-        <button className="btn btn-success" onClick={submit} style={{marginLeft: "10px"}}>Submit</button>
-        <button className="btn btn-danger" style={{marginLeft: "10px"}}>Cancel</button>
-        </div>
-    );
 }
 
-function voterInput() {
+function selectVoter() {
     
 }
+*/
 
 export default CreateCampaignComponent
