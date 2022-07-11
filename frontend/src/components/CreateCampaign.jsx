@@ -1,3 +1,5 @@
+/*this file is not debugged*/
+
 import React, { Component } from 'react'
 import UserService from '../services/UserService';
 import CampaignService from '../services/CampaignService';
