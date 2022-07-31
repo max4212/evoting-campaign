@@ -1,19 +1,14 @@
 package fyp.evoting.backend.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import fyp.evoting.backend.model.*;
+import fyp.evoting.backend.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import fyp.evoting.backend.exception.ResourceNotFoundException;
-import fyp.evoting.backend.model.Campaign;
-import fyp.evoting.backend.model.CampaignStatus;
-import fyp.evoting.backend.model.Option;
-import fyp.evoting.backend.model.User;
-import fyp.evoting.backend.model.Voter;
 import fyp.evoting.backend.repository.CampaignRepository;
 import fyp.evoting.backend.repository.UserRepository;
 
@@ -27,6 +22,9 @@ public class CampaignController {
 	
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private VoterRepository voterRepository;
 	
 	// get all campaigns
 	@GetMapping("/campaigns")
@@ -36,13 +34,70 @@ public class CampaignController {
 	
 	// create campaign in user rest api
 	@PostMapping("/users/{user_id}/campaigns")
-	public Campaign createCampaign(@PathVariable(value = "user_id") Long user_id, @RequestBody Campaign campaignRequest) {
-	    Campaign campaign = userRepository.findById(user_id).map(user -> {
-	    	campaignRequest.setUser(user);
-	    	return campaignRepository.save(campaignRequest);
-	    }).orElseThrow(() -> new ResourceNotFoundException("User " + user_id + " Not Found"));
-	
-	    return campaignRepository.save(campaign);
+	public Campaign createCampaign(@PathVariable(value = "user_id") Long user_id, @RequestBody CampaignRequest campaignRequest) {
+	    List<Option> inputOptions = campaignRequest.getOptions();
+		List<VoterRequest> inputVoters = campaignRequest.getVoters();
+		List<Voter> saveVoter = new ArrayList<>();
+		Optional<User> user = userRepository.findById(user_id);
+
+
+		Campaign saveCampaign = new Campaign();
+		if(campaignRequest.getId()!=0)
+		{
+			saveCampaign.setId(campaignRequest.getId());
+
+		}
+		if(user.isPresent()){
+			saveCampaign.setUser(user.get());
+		}
+		if(null!=campaignRequest.getCampaignStatus()) {
+			saveCampaign.setCampaignStatus(campaignRequest.getCampaignStatus());
+		}
+
+		if(null!=campaignRequest.getCampaignName()) {
+			saveCampaign.setCampaignName(campaignRequest.getCampaignName());
+		}
+
+		if(null!=campaignRequest.getDeadline()) {
+			saveCampaign.setDeadline(campaignRequest.getDeadline());
+		}
+
+		if(null!=campaignRequest.getDeadline()) {
+			saveCampaign.setUser(saveCampaign.getUser());
+		}
+		saveCampaign.setOptions(null);
+		saveCampaign.setVoters(null);
+
+		if(campaignRequest.getId()==0) {
+			campaignRepository.saveAndFlush(saveCampaign);
+		}
+		for(Option option: inputOptions){
+			option.setCampaign(saveCampaign);
+		}
+		for(VoterRequest voter: inputVoters){
+
+			Optional<User> userVoter = userRepository.findById(voter.getUser());
+			if(userVoter != null)
+			{
+				Voter voterSave = new Voter();
+				voterSave.setUser(userVoter.get());
+				voterSave.setCampaign(saveCampaign);
+				voterSave.setVoteStatus(voter.getVoteStatus());
+				saveVoter.add(voterSave);
+
+			}
+			//voter.setCampaign(campaignRequest);
+		}
+		saveCampaign.setOptions(inputOptions);
+		saveCampaign.setVoters(saveVoter);
+		if(campaignRequest.getId() ==0) {
+			campaignRepository.saveAndFlush(saveCampaign);
+		}
+		else
+		{
+			campaignRepository.save(saveCampaign);
+		}
+		return saveCampaign;
 	}
 	
 	// get campaign by id rest api
@@ -72,15 +127,37 @@ public class CampaignController {
 	
 	// update campaign rest api	
 	@PutMapping("/campaigns/{id}")
-	public ResponseEntity<Campaign> updateCampaign(@PathVariable Long id, @RequestBody Campaign campaignDetails){
+	public ResponseEntity<Campaign> updateCampaign(@PathVariable Long id, @RequestBody CampaignRequest campaignDetails){
 		Campaign campaign = campaignRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
-		
+		campaignDetails.setId(id);
+		//campaignRepository.delete(campaign);
+		Campaign updatedCampaign = createCampaign(campaign.getUser().getId(), campaignDetails);
+
+
+		/*List<Option> optionsList = campaignDetails.getOptions();
+		if(null != campaignDetails.getOptions() && campaignDetails.getOptions().size()>0) {
+
+		//	List<Voter> votersList = campaignDetails.getVoters();
+
+			for (Option option : optionsList) {
+				option.setCampaign(campaign);
+			}
+		}
+	/*	List<Voter> voterList = new ArrayList<>();
+		if(null != campaignDetails.getVoters() && campaignDetails.getVoters().size()>0) {
+			voterList = campaignDetails.getVoters();
+			for (Voter voter : voterList)
+			{
+				voter.setCampaign(campaign);
+			}
+		}*//*
 		campaign.setCampaignName(campaignDetails.getCampaignName());
 		campaign.setDeadline(campaignDetails.getDeadline());
 		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
-		
-		Campaign updatedCampaign = campaignRepository.save(campaign);
+		campaign.setOptions(optionsList);
+	//	campaign.setVoters(voterList);
+		Campaign updatedCampaign = campaignRepository.save(campaign);*/
 		return ResponseEntity.ok(updatedCampaign);
 	}
 	
@@ -118,6 +195,26 @@ public class CampaignController {
 	    Map<String, Boolean> response =  new HashMap<>();
 	    response.put("deleted", Boolean.TRUE);
 	    return ResponseEntity.ok(response);
+	}
+
+
+	@GetMapping("/campaigns/voters/{campaignId}")
+	public ResponseEntity<List<User>> getVotersByCampaignId(@PathVariable(value = "campaignId") Long campaign) {
+		List<Voter> voters = voterRepository.findByCampaignId(campaign);
+		List<User> users = new ArrayList<>();
+		if(voters != null && voters.size()>0) {
+
+			for (Voter voter : voters) {
+				User user = new User();
+				if(null != voter.getUser()) {
+					user = voter.getUser();
+					users.add(user);
+				}
+
+			}
+		}
+
+		return ResponseEntity.ok(users);
 	}
 		
 }

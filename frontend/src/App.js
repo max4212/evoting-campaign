@@ -1,41 +1,47 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import HeaderComponent from './components/HeaderComponent';
+import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom'
+import Login from './components/Login/Login';
 import FooterComponent from './components/FooterComponent';
-import ListUserComponent from './components/ListUserComponent';
+import ListUserComponentFunctional from './components/ListUserComponentFunctional';
 import CreateUserComponent from './components/CreateUserComponent';
 import UpdateUserComponent from './components/UpdateUserComponent';
 import ViewUserComponent from './components/ViewUserComponent';
-import ListCampaignComponent from './components/ListCampaignComponent';
-import CreateCampaignComponent from './components/CreateCampaignComponent';
-import UpdateCampaignComponent from './components/UpdateCampaignComponent';
-import ViewCampaignComponent from './components/ViewCampaignComponent';
-import OptionsComponent from './components/OptionsComponent';
+import ListCampaignComponentFunctional from './components/ListCampaignComponentFunctional';
+import NewCampaignForm from './components/NewCampaignForm/NewCampaignForm';
+import CampaignDetails from './components/CampaignDetails/CampaignDetails';
+import { useSelector } from 'react-redux';
+import ModifyCampaign from './components/NewCampaignForm/ModifyCampaignForm';
+import Voterpage from './components/TestView/Voterpage';
+import AdminPage from './components/TestView/Adminpage';
+import Header from './components/Header';
 
 function App() {
-  
+
+  const isLogin = useSelector((state)=>state.user.authenticated);
+  const isuserlogin = localStorage.getItem("inputValue");
   return (
     <div>
-        <Router>
-              <HeaderComponent />
-                <div className="container">
-                    <Switch> 
-                          <Route path = "/" exact component = {ListCampaignComponent}></Route>
-                          <Route path = "/users" component = {ListUserComponent}></Route>
-                          <Route path = "/add-user/:id" component = {CreateUserComponent}></Route>
-                          <Route path = "/view-user/:id" component = {ViewUserComponent}></Route>
-                          <Route path = "/update-user/:id" component = {UpdateUserComponent}></Route> 
-                          <Route path = "/campaigns" component = {ListCampaignComponent}></Route>
-                          <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
-                          <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
-                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route>
-                          <Route path = "/options/:id" component = {OptionsComponent}></Route>
-                    </Switch>
-                </div>
-        </Router>
+      <Router>
+        {/* <HeaderComponent /> */}
+        <Header></Header>
+        <div className="container content-center">
+          <Routes>
+            <Route path="/" element={<Login/>}></Route>
+            {isuserlogin&&<Route path="/users" element={<ListUserComponentFunctional/>}></Route>}
+            {isuserlogin&&<Route path="/add-user/:id" element={<CreateUserComponent/>}></Route>}
+            {isuserlogin&&<Route path="/view-user/:id" element={<ViewUserComponent/>}></Route>}
+            {isuserlogin&&<Route path="/update-user/:id" element={<UpdateUserComponent/>}></Route>}
+            {isuserlogin&&<Route path="/campaigns" element={<ListCampaignComponentFunctional />}></Route>}
+            {isuserlogin&&<Route path="/AdminPage" element={<ListUserComponentFunctional/>}></Route>}
+            {isuserlogin&&<Route path="/Voterpage" element={<Voterpage></Voterpage>}></Route>}
+            {isuserlogin&&<Route path="newCampaignForm" element={<NewCampaignForm/>}></Route>}
+            {isuserlogin&&<Route path='campaignDetails' element={<CampaignDetails/>}></Route>}
+            {isuserlogin&&<Route path='campaignModify' element={<ModifyCampaign/>}></Route>}
+          </Routes>
+        </div>
+      </Router>
     </div>
-    
   );
 }
 

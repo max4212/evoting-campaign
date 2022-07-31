@@ -70,7 +70,7 @@ public class UserController {
 	
 	// get by user type rest api
 	@GetMapping("/users/findByUserType/{userType}")
-    public List<User> findAllVoters(@PathVariable("UserType") UserType userType) {
+    public List<User> findAllVoters(@PathVariable("userType") UserType userType) {
         return userRepository.findByUserType(userType);
     }
 	
