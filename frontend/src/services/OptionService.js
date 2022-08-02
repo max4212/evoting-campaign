@@ -16,7 +16,7 @@ class OptionService {
     createOption(campaignId, option){
         return axios.post(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/options', option);
     }
-
+    
     getOptionById(optionId){
         return axios.get(OPTION_API_BASE_URL + '/' + optionId);
     }

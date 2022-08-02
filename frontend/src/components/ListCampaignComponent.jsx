@@ -12,8 +12,6 @@ class ListCampaignComponent extends Component {
     };
 
     this.addCampaign = this.addCampaign.bind(this);
-    this.addOption = this.addOption.bind(this);
-    this.editCampaign = this.editCampaign.bind(this);
     this.deleteCampaign = this.deleteCampaign.bind(this);
   }
 
@@ -97,6 +95,13 @@ class ListCampaignComponent extends Component {
                       View{" "}
                     </button>
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
+                    <button
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => this.launchCampaign(campaign.id)}
+                      className="btn btn-info"
+                    >
+                      Launch{" "}
+                    </button>
                     <button
                       style={{ marginLeft: "10px" }}
                       onClick={() => this.viewResults(campaign.id)}

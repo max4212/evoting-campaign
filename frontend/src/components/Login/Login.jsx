@@ -30,8 +30,9 @@ export default function Login() {
                     localStorage.setItem("inputValue",existinguser.id);
                     dispatch(userActions.setUser(existinguser));
                     dispatch(userActions.setLogin());
+                    
                     if(existinguser.userType==="Admin"){
-                        navigate("/Adminpage");
+                        navigate("/users");
                     }else if(existinguser.userType==="Host"){
                         navigate('/campaigns');
                     }else{

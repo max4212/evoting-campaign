@@ -52,7 +52,6 @@ export default function UserDetails() {
         >
           Modify
         </button>
-        <button className="btn btn-dark">Launch</button>
         <button className="btn btn-dark">View Results</button>
         <button
           className="btn btn-dark"
