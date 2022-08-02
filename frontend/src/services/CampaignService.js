@@ -13,10 +13,6 @@ class CampaignService {
         return axios.get(USER_API_BASE_URL + '/' + userId + '/campaigns');
     }
 
-    createCampaignTest(campaign){
-        return axios.post(USER_API_BASE_URL + '/2/campaigns', campaign);
-    }
-
     createCampaign(userId, campaign){
         return axios.post(USER_API_BASE_URL + '/' + userId + '/campaigns', campaign);
     }

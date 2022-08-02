@@ -74,6 +74,7 @@ export default function NewCampaignForm() {
         }
         fetchData();
     },[])
+    
     const dataChangeHandler = (event) => {
         if (event.target.id === 'campaignName') {
             setCampaignName(event.target.value);

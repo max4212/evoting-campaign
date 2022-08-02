@@ -18,8 +18,9 @@ class ListUserComponent extends Component {
             this.setState({users: this.state.users.filter(user => user.id !== id)});
         });
     }
-    viewUser(id){
-        this.props.history.push(`/view-user/${id}`);
+    viewUser(user){
+        // this.props.history.push(`/view-user/${id}`);
+        this.props.navigate("/userDetails", { state: { user: user } });
     }
     editUser(id){
         this.props.history.push(`/add-user/${id}`);
@@ -31,17 +32,20 @@ class ListUserComponent extends Component {
         });
     }
 
-    addUser(){
-        this.props.history.push('/add-user/_add');
-    }
+	addUser() {
+		this.props.navigate("/newUserForm");
+		// this.props.history.push('/add-user/_add');
+	}
     
     render() {
         return (
             <div>
                  <h2 className="text-center">Users List</h2>
                  <div className = "row">
-                    <button className="btn btn-primary" onClick={this.addUser}> Add User</button>
-                 </div>
+					<button className="btn btn-primary" onClick={this.addUser}>
+					{" "}
+					Add User
+					</button></div>
                  <br></br>
                  <div className = "row">
                         <table className = "table table-striped table-bordered">
@@ -65,9 +69,13 @@ class ListUserComponent extends Component {
                                              <td> {user.email}</td>
                                              <td> {user.userType}</td>
                                              <td>
-                                                 <button onClick={ () => this.viewUser(user.id)} className="btn btn-info">View </button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.editUser(user.id)} className="btn btn-info">Update </button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => {if(window.confirm('Confirm to Delete?'))this.deleteUser(user.id)}} className="btn btn-danger">Delete </button>
+                                                 <button
+												  onClick={() => this.viewUser(user)}
+												  className="btn btn-info"
+												 >
+												   View{" "}
+												 </button>
+												 <button style={{marginLeft: "10px"}} onClick={ () => {if(window.confirm('Confirm to Delete?'))this.deleteUser(user.id)}} className="btn btn-danger">Delete </button>
                                              </td>
                                         </tr>
                                     )

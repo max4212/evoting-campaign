@@ -32,10 +32,6 @@ class ListCampaignComponent extends Component {
     this.props.navigate("/campaignDetails", { state: { campaign: campaign } });
   }
 
-  editCampaign(id) {
-    this.props.history.push(`/add-campaign/${id}`);
-  }
-
   launchCampaign(id) {
     CampaignService.launchCampaign(id).then((res) => {
       this.setState({
@@ -101,20 +97,6 @@ class ListCampaignComponent extends Component {
                       View{" "}
                     </button>
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
-                    <button
-                      style={{ marginLeft: "10px" }}
-                      onClick={() => this.editCampaign(campaign.id)}
-                      className="btn btn-info"
-                    >
-                      Update{" "}
-                    </button>
-                    <button
-                      style={{ marginLeft: "10px" }}
-                      onClick={() => this.launchCampaign(campaign.id)}
-                      className="btn btn-info"
-                    >
-                      Launch{" "}
-                    </button>
                     <button
                       style={{ marginLeft: "10px" }}
                       onClick={() => this.viewResults(campaign.id)}
