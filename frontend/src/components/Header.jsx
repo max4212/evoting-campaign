@@ -8,8 +8,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const islogin = localStorage.getItem("inputValue");
-
-
+ 
     useEffect(()=>{
         if(islogin){
             setShow(true);
@@ -22,6 +21,7 @@ const Header = () => {
         navigate("/");
         localStorage.removeItem("inputValue");
     }
+
   return (
     <div>
       <header>
@@ -31,6 +31,9 @@ const Header = () => {
               E-Voting App
             </a>
           </div>
+          {show&&<div className="navbar-brand">
+            Welcome {islogin}
+          </div>}
           {show&&<button
             type="button"
             className="btn btn-danger"
