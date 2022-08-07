@@ -5,11 +5,13 @@ import UserService from '../../services/UserService';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/user-Slice';
 
+
 export default function Login() {
     const navigate = useNavigate();
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+
 
     const dataChangeHandler = async (event) => {
         if (event.target.id === 'userId') {
@@ -29,8 +31,6 @@ export default function Login() {
                     dispatch(userActions.setUser(existinguser));
                     dispatch(userActions.setLogin());
                     
-                    localStorage.setItem('loginState', existinguser.id);
-
                     if(existinguser.userType==="Admin"){
                         navigate("/users");
                     }else if(existinguser.userType==="Host"){

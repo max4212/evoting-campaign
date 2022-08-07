@@ -97,6 +97,13 @@ class ListCampaignComponent extends Component {
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
                     <button
                       style={{ marginLeft: "10px" }}
+                      onClick={() => this.launchCampaign(campaign.id)}
+                      className="btn btn-info"
+                    >
+                      Launch{" "}
+                    </button>
+                    <button
+                      style={{ marginLeft: "10px" }}
                       onClick={() => this.viewResults(campaign.id)}
                       className="btn btn-info"
                     >
