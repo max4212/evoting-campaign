@@ -20,6 +20,7 @@ const Header = () => {
     const removeItem =()=>{
         navigate("/");
         localStorage.removeItem("inputValue");
+        localStorage.clear();
     }
 
   return (
