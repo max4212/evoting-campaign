@@ -31,13 +31,7 @@ class ListCampaignComponent extends Component {
   }
 
   launchCampaign(id) {
-    CampaignService.launchCampaign(id).then((res) => {
-      this.setState({
-        campaigns: this.state.campaigns.filter(
-          (campaign) => campaign.id !== id
-        ),
-      });
-    });
+   
   }
 
   componentDidMount() {
@@ -95,6 +89,13 @@ class ListCampaignComponent extends Component {
                       View{" "}
                     </button>
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
+                    <button 
+                      style={{ marginLeft: "10px" }}
+                      className="btn btn-info"
+                      id="launchBtn"
+                    >
+                      Launch{" "}
+                    </button>
                     <button
                       style={{ marginLeft: "10px" }}
                       onClick={() => this.viewResults(campaign.id)}

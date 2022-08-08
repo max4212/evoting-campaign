@@ -10,7 +10,7 @@ export default function CampaignDetails() {
 
   const {id,campaignName,campaignStatus,deadline,options,voters}=location.state.campaign;
   const [readOnly, setReadOnly] = useState(true);
-
+  
   useEffect(()=>{
     const fetchData = async()=>{
       const data = await CampaignService.getVoterByCampaign(id);
@@ -56,6 +56,8 @@ export default function CampaignDetails() {
           usagePurpose: "modify",
         },
       });
+    } else if (event.target.id === "launchBtn") {
+
     }
   };
 
@@ -69,7 +71,13 @@ export default function CampaignDetails() {
         >
           Modify
         </button>
-        <button className="btn btn-dark">Launch</button>
+        <button 
+          className="btn btn-dark"
+          id="launchBtn"
+          onClick={dataChangeHandler}
+        >
+          Launch
+        </button>
         <button className="btn btn-dark">View Results</button>
         <button
           className="btn btn-dark"
