@@ -1,5 +1,6 @@
 package fyp.evoting.backend.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import fyp.evoting.backend.model.Option;
 import fyp.evoting.backend.model.User;
 import fyp.evoting.backend.model.UserType;
 import fyp.evoting.backend.model.Voter;
+import fyp.evoting.backend.model.VoteStatus;
 import fyp.evoting.backend.repository.CampaignRepository;
 import fyp.evoting.backend.repository.UserRepository;
 import fyp.evoting.backend.repository.VoterRepository;
@@ -34,16 +36,13 @@ public class VoterController {
 	private UserRepository userRepository;	
 	
 	// create voters rest api
-	@PostMapping("/campaigns/{campaign_id}/users/{user_id}")
-	public Voter createVoter(@PathVariable(value = "campaign_id") Long campaign_id, @PathVariable(value = "user_id") Long user_id, @RequestBody Voter voterRequest) {
+	@PostMapping("/campaigns/{campaign_id}/voters")
+	public Voter createVoter(@PathVariable(value = "campaign_id") Long campaign_id, @RequestBody Voter voterRequest) {
 	    Voter voter = campaignRepository.findById(campaign_id).map(campaign -> {
-			voterRequest.setCampaign(campaign);
-			userRepository.findById(user_id).map(user -> {
-				voterRequest.setUser(user);
-				return voterRepository.save(voterRequest);
-			}).orElseThrow(() -> new ResourceNotFoundException("User " + user_id + " Not Found"));
-			return voterRepository.save(voterRequest);
-		}).orElseThrow(() -> new ResourceNotFoundException("Campaign " + campaign_id + " Not Found"));
+	    	voterRequest.setCampaign(campaign);
+	    	return voterRepository.save(voterRequest);
+	    }).orElseThrow(() -> new ResourceNotFoundException("Campaign " + campaign_id + " Not Found"));
+	
 	    return voterRepository.save(voter);
 	}
 	
@@ -65,7 +64,7 @@ public class VoterController {
 	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
 	    }
 	
-	    List<Voter> voters = voterRepository.findByCampaignId(user_id);
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
 	    return ResponseEntity.ok(voters);
 	}
 
@@ -79,18 +78,6 @@ public class VoterController {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
-	}
-	
-	// update voter rest api	
-	@PutMapping("/voters/{id}")
-	public ResponseEntity<Voter> updateVoter(@PathVariable Long id, @RequestBody Voter voters){
-		Voter voter = voterRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Voter " + id + " Not Found"));
-
-		voter.setVoteStatus(voters.getVoteStatus());
-		
-		Voter updatedVoter = voterRepository.save(voter);
-		return ResponseEntity.ok(updatedVoter);
 	}
 	
 	//delete voter by campaign rest api
@@ -116,5 +103,73 @@ public class VoterController {
 	    response.put("deleted", Boolean.TRUE);
 	    return ResponseEntity.ok(response);
 	}
+	@GetMapping("/users/{user_id}/voters/campaigns")
+	public ResponseEntity<List<Campaign>> getCampaignsByUserId(@PathVariable(value = "user_id") Long user_id) {
+	    if (!userRepository.existsById(user_id)) {
+	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+	    }
+	    List<Campaign> campaigns=new ArrayList<>();
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
+	    List<Campaign> campaign =campaignRepository.findAll();
+	    for (Voter v : voters) 
+	    {
+	    	for(Campaign c : campaign) 
+	    	{
+	    		if(v.getCampaign() == c) 
+	    		{
+	    			campaigns.add(c);
+	    		}
+	    	}
+	    }
+	    return ResponseEntity.ok(campaigns);
+	}
 	
+	@GetMapping("/users/{user_id}/campaigns/{campaign_id}/voters")
+	public ResponseEntity<List<Voter>> getVoter(@PathVariable(value = "user_id") Long user_id, @PathVariable(value = "campaign_id") Long campaign_id) {
+	    if (!userRepository.existsById(user_id)) {
+	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+	    }
+	    if (!campaignRepository.existsById(campaign_id)) {
+		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
+		    }
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
+	    List<Voter> vote = voterRepository.findByCampaignId(campaign_id);
+	    List<Voter> voter=new ArrayList<>();
+	    for(Voter v1 : voters) 
+	    {
+	    	for(Voter v2 : vote) 
+	    	{
+	    		if(v1 == v2) 
+	    		{
+	    			voter.add(v1);
+	    		}
+	    	}
+	    }
+	    
+	    return ResponseEntity.ok(voter);
+	}
+	@PutMapping("/users/{user_id}/campaigns/{campaign_id}/voters")
+	public ResponseEntity<List<Voter>> statusChange(@PathVariable(value = "user_id") Long user_id, @PathVariable(value = "campaign_id") Long campaign_id) 
+	{
+		if (!userRepository.existsById(user_id)) {
+		      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+		    }
+		    if (!campaignRepository.existsById(campaign_id)) {
+			      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
+			    }
+		    List<Voter> voters = voterRepository.findByUserId(user_id);
+		    List<Voter> vote = voterRepository.findByCampaignId(campaign_id);
+		    for(Voter v1 : voters) 
+		    {
+		    	for(Voter v2 : vote) 
+		    	{
+		    		if(v1 == v2) 
+		    		{
+		    			v1.setVoteStatus(VoteStatus.Voted);
+		    		}
+		    	}
+		    }
+		    voterRepository.saveAll(voters);
+		    return ResponseEntity.ok(voters);
+	}
 }

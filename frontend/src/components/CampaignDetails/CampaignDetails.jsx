@@ -43,7 +43,8 @@ export default function CampaignDetails() {
 
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
-      navigate("/campaigns");
+      navigate(-1);
+      localStorage.removeItem("campaign");
     } else if (event.target.id === "modifyBtn") {
       navigate("/campaignModify", {
         state: {
@@ -58,7 +59,9 @@ export default function CampaignDetails() {
       });
     } else if (event.target.id === "launchBtn") {
 
-    }
+    }else if (event.target.id === "resultBtn") {
+      this.props.navigate("/Resultpage");
+      } 
   };
 
 

@@ -50,6 +50,7 @@ class ResultComponent extends React.Component
 
     back(){
         this.props.navigate(-1);
+        localStorage.removeItem("campaign");
     }
 
     array()

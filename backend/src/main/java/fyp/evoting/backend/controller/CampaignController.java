@@ -162,12 +162,12 @@ public class CampaignController {
 	}
 	
 	// launch campaign rest api	
-	@PutMapping("/campaigns/{id}/launchCampaign/Pending")
+	@PutMapping("/campaigns/{id}/launchCampaign")
 	public ResponseEntity<Campaign> launchCampaign(@PathVariable Long id, @RequestBody Campaign campaignDetails){
 		Campaign campaign = campaignRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
 		
-		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
+		campaign.setCampaignStatus(campaignStatus.Pending);
 		
 		Campaign launchedCampaign = campaignRepository.save(campaign);
 		return ResponseEntity.ok(launchedCampaign);
