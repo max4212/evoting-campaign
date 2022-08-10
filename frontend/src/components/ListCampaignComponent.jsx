@@ -37,7 +37,7 @@ class ListCampaignComponent extends Component {
   Results(id){
     localStorage.setItem("campaign",id);
     this.props.navigate("/Resultpage");
-}
+  }
 
   componentDidMount() {
     console.log(localStorage.getItem("inputValue"));
