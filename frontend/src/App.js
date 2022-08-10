@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom
 
 import Login from './components/Login/Login';
 import Header from './components/Header';
-import FooterComponent from './components/FooterComponent';
 
 import ListUserComponentFunctional from './components/ListUserComponentFunctional';
 import NewUserForm from './components/NewUserForm/NewUserForm';
@@ -17,19 +16,22 @@ import CampaignDetails from './components/CampaignDetails/CampaignDetails';
 import { useSelector } from 'react-redux';
 import ModifyCampaign from './components/NewCampaignForm/ModifyCampaignForm';
 
-import Voterpage from './components/view/Voterpage';
-
+import Resultpage from './components/Resultpage';
+import Optionpage from './components/Optionpage';
+import ResultComponent from './components/ResultComponent';
+import voteComponent from './components/voteComponent';
+import VoterListComponent from './components/VoterListComponent';
+import View from './components/view';
 function App() {
-
   const isLogin = useSelector((state)=>state.user.authenticated);
   const isuserlogin = localStorage.getItem("inputValue");
+  const campaign = localStorage.getItem("campaign");
   return (
     <div>
       <Router>
-        {/* <HeaderComponent /> */}
-        <Header></Header>
-        <div className="container content-center">
-          <Routes>
+      <Header></Header>
+          <div className="container content-center">
+            <Routes> 
             <Route path="/" element={<Login/>}></Route>
 
             {isuserlogin&&<Route path="/users" element={<ListUserComponentFunctional />}></Route>}
@@ -42,11 +44,18 @@ function App() {
             {isuserlogin&&<Route path='campaignDetails' element={<CampaignDetails/>}></Route>}
             {isuserlogin&&<Route path='campaignModify' element={<ModifyCampaign/>}></Route>}
 
-            {isuserlogin&&<Route path="/Voterpage" element={<Voterpage></Voterpage>}></Route>}
-          </Routes>
-        </div>
-      </Router>
+            {isuserlogin&&<Route path="/voters" element={<VoterListComponent/>}></Route>}
+            {isuserlogin&&<Route path = "voter" element = {<VoterListComponent/>}></Route>} 
+            {isuserlogin&&<Route path="/Resultpage" element={<Resultpage/>}></Route>}
+            {isuserlogin&&campaign&&<Route path = "result" element = {<ResultComponent/>}></Route>}
+            {isuserlogin&&<Route path="/Optionpage" element={<Optionpage/>}></Route>}
+            {isuserlogin&&campaign&&<Route path = "voteComponent" element = {<voteComponent/>}></Route>} 
+            {isuserlogin&&<Route path = 'View' element = {<View/>}></Route>}      
+            </Routes>
+          </div>
+        </Router>
     </div>
+    
   );
 }
 

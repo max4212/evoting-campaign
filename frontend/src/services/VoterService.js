@@ -33,6 +33,17 @@ class VoterService {
     deleteVoter(voterId){
         return axios.delete(VOTER_API_BASE_URL + '/' + voterId);
     }
+
+    getCampaignByVoter(userId){
+        return axios.get(USER_API_BASE_URL + '/' + userId + '/voters/campaigns');
+    }
+    getVoter(userId,campaignId){
+        return axios.get(USER_API_BASE_URL + '/' + userId + '/campaigns/' + campaignId + '/voters');
+    }
+    
+    voted(userId,campaignId){
+        return axios.put(USER_API_BASE_URL + '/' + userId + '/campaigns/' + campaignId + '/voters');
+    }
 }
 
 export default new VoterService()

@@ -46,15 +46,14 @@ export default function UserDetails() {
     <div className="p-1 my-1">
       <div className="flex align-middle justify-end gap-x-1">
         <button
-          className="btn btn-dark"
+          className="btn btn-info"
           id="modifyBtn"
           onClick={dataChangeHandler}
         >
           Modify
         </button>
-        <button className="btn btn-dark">View Results</button>
         <button
-          className="btn btn-dark"
+          className="btn btn-danger"
           id="backBtn"
           onClick={dataChangeHandler}
         >

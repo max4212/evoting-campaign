@@ -9,7 +9,6 @@ class ListUserComponent extends Component {
                 users: []
         }
         this.addUser = this.addUser.bind(this);
-        this.editUser = this.editUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
     }
 
@@ -21,9 +20,6 @@ class ListUserComponent extends Component {
     viewUser(user){
         // this.props.history.push(`/view-user/${id}`);
         this.props.navigate("/userDetails", { state: { user: user } });
-    }
-    editUser(id){
-        this.props.history.push(`/add-user/${id}`);
     }
 
     componentDidMount(){
@@ -75,7 +71,13 @@ class ListUserComponent extends Component {
 												 >
 												   View{" "}
 												 </button>
-												 <button style={{marginLeft: "10px"}} onClick={ () => {if(window.confirm('Confirm to Delete?'))this.deleteUser(user.id)}} className="btn btn-danger">Delete </button>
+												 <button 
+                                                    style={{marginLeft: "10px"}} 
+                                                    onClick={ () => {if(window.confirm('Confirm to Delete?'))this.deleteUser(user.id)}} 
+                                                    className="btn btn-danger"
+                                                 >
+                                                    Delete 
+                                                 </button>
                                              </td>
                                         </tr>
                                     )

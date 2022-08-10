@@ -28,6 +28,18 @@ class OptionService {
     deleteOption(optionId){
         return axios.delete(OPTION_API_BASE_URL + '/' + optionId);
     }
+   
+    updateVote(campaignId,choice)
+    {
+        return axios({
+            method: 'put',
+            url: CAMPAIGN_API_BASE_URL + '/' + campaignId + '/options',
+            headers: { 
+              'Content-Type': 'text/plain'
+            },
+            data : choice
+          });
+    }
 }
 
 export default new OptionService()

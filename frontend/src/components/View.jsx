@@ -1,95 +1,35 @@
+import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import React, { useLocation, useNavigate } from "react-router-dom";
-import CampaignService from "../../services/CampaignService";
+import { useLocation, useNavigate } from "react-router-dom";
+import CampaignService from "../services/CampaignService";
 
-export default function CampaignDetails() {
+export default function View() {
   const [voterUser,setVoterUser] = useState([]); 
   const location = useLocation();
   const navigate = useNavigate();
 
   const {id,campaignName,campaignStatus,deadline,options,voters}=location.state.campaign;
   const [readOnly, setReadOnly] = useState(true);
-  
+
   useEffect(()=>{
     const fetchData = async()=>{
       const data = await CampaignService.getVoterByCampaign(id);
-      console.log(data.data);
       setVoterUser(data.data);
     }
     fetchData();
-  },[])
-
-  console.log(voters);
-  
-
-//   const campaignId = location.state.campaignId;
-//   const campaignName = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).campaignName;
-//   const campaignDetails = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).campaignDetails;
-//   const options = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).options;
-//   const deadline = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).deadline;
-//   const voters = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).voters;
-//   console.log(voters);
+  },[])  
 
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
-      navigate("/campaigns");
-    } else if (event.target.id === "modifyBtn") {
-      navigate("/campaignModify", {
-        state: {
-          id,
-          campaignName,
-          campaignStatus,
-          options,
-          voters:voterUser,
-          deadline,
-          usagePurpose: "modify",
-        },
-      });
-    } else if (event.target.id === "launchBtn") {
-
+      navigate("/Voterpage");
     }
-  };
-
-
+}
   return (
     <div className="p-1 my-1">
       <div className="flex align-middle justify-end gap-x-1">
         <button
-          className="btn btn-info"
-          id="modifyBtn"
-          onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
-        >
-          Modify
-        </button>
-        <button 
-          className="btn btn-info"
-          id="launchBtn"
-          onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
-        >
-          Launch
-        </button>
-        <button 
-          className="btn btn-info"
-          id="resultBtn"
-          disabled={campaignStatus!="Closed"}
-        >
-          Results
-        </button>
-        <button
-          className="btn btn-danger"
+          className="btn btn-dark"
           id="backBtn"
           onClick={dataChangeHandler}
         >

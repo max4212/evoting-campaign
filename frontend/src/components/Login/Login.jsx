@@ -34,7 +34,7 @@ export default function Login() {
                     }else if(existinguser.userType==="Host"){
                         navigate('/campaigns');
                     }else{
-                        navigate("/Voterpage");
+                        navigate("/voters");
                     }
                 }else{
                     alert("Incorrect Username or Password")
