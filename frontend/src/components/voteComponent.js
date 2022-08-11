@@ -56,12 +56,12 @@ class voteComponent extends React.Component
          }
      }else{
       this.setState({ alert: "You have voted"})};
-      this.props.navigate("/voters");
+      if (window.confirm("You Have Voted"))this.props.navigate("/voters");
       localStorage.removeItem("campaign");
     }
   }else{
-    this.setState({ alert: "This poll has closed"})
-    this.props.navigate("/voters");
+    this.setState({ alert: "This poll has closed"});
+    if (window.confirm("This Poll Has Closed"))this.props.navigate("/voters");
     localStorage.removeItem("campaign");
   }
   } 
