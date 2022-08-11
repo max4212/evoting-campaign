@@ -51,14 +51,18 @@ class voteComponent extends React.Component
          if(this.state.choice !==""){
           OptionService.updateVote(id,this.state.choice);
           VoterService.voted(userid,id);
-          this.props.navigate(-2);
+          this.props.navigate("/voters");
+          localStorage.removeItem("campaign");
          }
-     }else{this.setState({ alert: "You have voted"})};
-      this.props.navigate(-1);
+     }else{
+      this.setState({ alert: "You have voted"})};
+      this.props.navigate("/voters");
+      localStorage.removeItem("campaign");
     }
   }else{
     this.setState({ alert: "This poll has closed"})
-    this.props.navigate(-1);
+    this.props.navigate("/voters");
+    localStorage.removeItem("campaign");
   }
   } 
 

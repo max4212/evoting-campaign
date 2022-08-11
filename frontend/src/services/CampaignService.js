@@ -38,7 +38,7 @@ class CampaignService {
     }
 
     launchCampaign(campaignId){
-        return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/launchCampaign/Pending');
+        return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/launchCampaign');
     }
 
     getVoterByCampaign(campaignId){
