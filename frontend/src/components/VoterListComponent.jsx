@@ -91,9 +91,28 @@ class VoterListComponent extends Component {
                                                  <td> {campaign.deadline}</td>
                                                  <td> {campaign.campaignStatus}</td>
                                                  <td>                                            
-                                                     <button onClick={ () => this.viewCampaign(campaign)} className="btn btn-info">View </button>
-                                                     <button style={{marginLeft: "10px"}} onClick={ () => this.Vote(campaign.id)} disabled={this.compare(campaign.campaignStatus,"vote")} className="btn btn-info">Vote </button>
-                                                     <button style={{marginLeft: "10px"}} onClick={ () => this.Results(campaign.id, this.state.campaigns)} disabled={this.compare(campaign.campaignStatus,"result")} className="btn btn-info">Results </button>
+                                                     <button 
+                                                        onClick={ () => this.viewCampaign(campaign)} 
+                                                        className="btn btn-info"
+                                                     >
+                                                     View 
+                                                     </button>
+                                                     <button 
+                                                        style={{marginLeft: "10px"}} 
+                                                        onClick={ () => this.Vote(campaign.id)} 
+                                                        disabled={this.compare(campaign.campaignStatus,"vote")} 
+                                                        className="btn btn-info"
+                                                     >
+                                                     Vote 
+                                                     </button>
+                                                     <button 
+                                                        style={{marginLeft: "10px"}} 
+                                                        onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
+                                                        disabled={this.compare(campaign.campaignStatus,"result")} 
+                                                        className="btn btn-info"
+                                                     >
+                                                     Results 
+                                                     </button>
                                                  </td>
                                             </tr>
                                         )

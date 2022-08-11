@@ -51,10 +51,16 @@ class voteComponent extends React.Component
     {
       OptionService.updateVote(id,this.state.choice);
       VoterService.voted(userid,id);
-      this.props.navigate('/Voterpage');
+      this.props.navigate(-1);
     }
-    }else{this.setState({ alert: "You have voted"})}
-  }else{this.setState({ alert: "This poll has closed"})}
+    }else{
+      this.setState({ alert: "You have voted"})
+      this.props.navigate(-1);
+    }
+  }else{
+    this.setState({ alert: "This poll has closed"})
+    this.props.navigate(-1);
+  }
   } 
 
   setter(event) 
@@ -85,7 +91,7 @@ render() {
         onClick={this.setter.bind(this)}/> {item.optionDesc} 
         </p>
         )}
-      <br></br><button className="btn" onClick={() => this.update()}>Submit</button>
+      <br></br><button className="btn btn-info" onClick={() => this.update()}>Submit</button>
       <p className="text-center">{this.state.alert}</p>
       </body>
       </div>
