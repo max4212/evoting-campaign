@@ -46,15 +46,14 @@ class voteComponent extends React.Component
     const userid = localStorage.getItem("inputValue");
     const id = localStorage.getItem("campaign");
     if(this.state.campaign.campaignStatus === "Pending"){
-    if(this.state.voter.voteStatus !== 'Voted'){
-      if(this.state.choice !=="")
-    {
-      OptionService.updateVote(id,this.state.choice);
-      VoterService.voted(userid,id);
-      this.props.navigate(-1);
-    }
-    }else{
-      this.setState({ alert: "You have voted"})
+      for(var i of this.state.voter){ 
+        if(i.voteStatus !== 'Voted'){
+         if(this.state.choice !==""){
+          OptionService.updateVote(id,this.state.choice);
+          VoterService.voted(userid,id);
+          this.props.navigate(-2);
+         }
+     }else{this.setState({ alert: "You have voted"})};
       this.props.navigate(-1);
     }
   }else{
