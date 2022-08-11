@@ -31,7 +31,10 @@ class ListCampaignComponent extends Component {
   }
 
   launchCampaign(id) {
-   
+    localStorage.setItem("campaign",id);
+    CampaignService.launchCampaign(id);
+    this.props.navigate("/campaigns");
+    localStorage.removeItem("campaign");
   }
 
   Results(id){
@@ -132,6 +135,7 @@ class ListCampaignComponent extends Component {
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
                     <button 
                       style={{ marginLeft: "10px" }}
+                      onClick={ () => this.launchCampaign(campaign.id)} 
                       className="btn btn-info"
                       id="launchBtn"
                       disabled={this.compare(campaign.campaignStatus,"launch")}
