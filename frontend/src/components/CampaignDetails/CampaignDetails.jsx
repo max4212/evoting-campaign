@@ -56,9 +56,7 @@ export default function CampaignDetails() {
           usagePurpose: "modify",
         },
       });
-    } else if (event.target.id === "launchBtn") {
-
-    }
+    } 
   };
 
 
@@ -72,14 +70,6 @@ export default function CampaignDetails() {
           disabled={campaignStatus!=="Open"}
         >
           Modify
-        </button>
-        <button 
-          className="btn btn-info"
-          id="launchBtn"
-          onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
-        >
-          Launch
         </button>
         <button 
           className="btn btn-info"
