@@ -64,7 +64,7 @@ class voteComponent extends React.Component
  }
 
 back(){
-  this.props.navigate('/Voterpage');
+  this.props.navigate('/voters');
 }
 
 render() {

@@ -31,13 +31,13 @@ class ListCampaignComponent extends Component {
   }
 
   launchCampaign(id) {
-    CampaignService.launchCampaign(id);
+   
   }
 
   Results(id){
     localStorage.setItem("campaign",id);
     this.props.navigate("/Resultpage");
-  }
+}
 
   componentDidMount() {
     console.log(localStorage.getItem("inputValue"));
@@ -133,16 +133,15 @@ class ListCampaignComponent extends Component {
                     <button 
                       style={{ marginLeft: "10px" }}
                       className="btn btn-info"
-                      onClick={ () => this.launchCampaign(campaign.id, this.state.campaigns)} 
                       id="launchBtn"
                       disabled={this.compare(campaign.campaignStatus,"launch")}
                     >
                       Launch{" "}
                     </button>
                     <button style={{marginLeft: "10px"}} 
-                      onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
-                      disabled={this.compare(campaign.campaignStatus,"result")} 
-                      className="btn btn-info"
+                    onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
+                    disabled={this.compare(campaign.campaignStatus,"result")} 
+                    className="btn btn-info"
                     >
                       Results{" "}
                     </button>

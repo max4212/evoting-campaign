@@ -22,7 +22,7 @@ export default function View() {
 
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
-      navigate("/Voterpage");
+      navigate("/voters");
     }
 }
   return (
