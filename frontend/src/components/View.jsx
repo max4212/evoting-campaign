@@ -95,23 +95,7 @@ export default function View() {
               ))}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="options" class="form-label">
-              Voters
-            </label>
-            <div className="flex flex-col gap-y-1">
-              {voterUser.map((voter) => (
-                <input
-                  type="text"
-                  class="form-control"
-                  id="voters"
-                  placeholder="Campaign Option"
-                  readOnly={readOnly}
-                  value={voter.userName}
-                />
-              ))}
-            </div>
-          </div>
+          
         </div>
         {/* <div class="card-footer text-muted">
                     2 days ago
