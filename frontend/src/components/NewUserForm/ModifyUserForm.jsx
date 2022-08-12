@@ -59,6 +59,7 @@ export default function ModifyUser() {
         userType,
       });
       navigate("/users");
+      window.location.reload();
     } else if (event.target.id === "backBtn") {
       navigate(-1);
     }
