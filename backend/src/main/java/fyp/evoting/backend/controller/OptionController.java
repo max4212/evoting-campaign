@@ -55,12 +55,11 @@ public class OptionController {
 	    }
 	    
 	    Encryption paillier = new Encryption();
+	    BigInteger key = paillier.KeyGen(32, 64);
 	    List<Option> options = optionRepository.findByCampaignId(campaign_id);
 	    for (int i = 0; i < options.size(); i++)
 	    {
-	    BigInteger nsquare = BigInteger.valueOf(options.get(i).getNsquare());
-	    BigInteger lambda = BigInteger.valueOf(options.get(i).getLambda());	
-	    BigInteger key = paillier.KeyGen(nsquare,lambda);
+	    	
 	    long m1 = options.get(i).getVoteCount();
 	    BigInteger ccc =BigInteger.valueOf(m1);
 	    options.get(i).setVoteCount(paillier.Decrypt(ccc).longValue());
@@ -87,6 +86,7 @@ public class OptionController {
 		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 		    }
 		Encryption paillier = new Encryption();
+		
 		List<Option> options = optionRepository.findByCampaignId(campaign_id);
 		for (int i = 0; i < options.size(); i++) {
 		    if(choice.equalsIgnoreCase(options.get(i).getOptionDesc())) 
@@ -94,16 +94,14 @@ public class OptionController {
 		    	long m3 = options.get(i).getVoteCount();
 		    	if(m3!=0) 
 		    	{
-		    		BigInteger nsquare = BigInteger.valueOf(options.get(i).getNsquare());
-		    	    BigInteger lambda = BigInteger.valueOf(options.get(i).getLambda());	
-		    	    BigInteger key = paillier.KeyGen(nsquare,lambda);
+		    		BigInteger key = paillier.KeyGen(32, 64);
 		    		int m12=1;
 					String m1 =String.valueOf(m12);
 			        BigInteger m2 = new BigInteger(m1);
-			        BigInteger c1 = paillier.Encrypt(m2,32);
-			        BigInteger c2= BigInteger.valueOf(options.get(i).getVoteCount());
-		    		BigInteger cc = paillier.CiperMultiply(c1, c2,nsquare);
-		    		options.get(i).setVoteCount(cc.longValue());
+			        BigInteger c1 = paillier.Encrypt(m2);
+			        BigInteger c2= paillier.Encrypt(BigInteger.valueOf(m3));
+		    		BigInteger c = paillier.CiperMultiply(c1, c2);
+		    		options.get(i).setVoteCount(c.longValue());
 		    	}else 
 		    	{
 		    		BigInteger key = paillier.KeyGen(32, 64);
@@ -112,9 +110,9 @@ public class OptionController {
 			        BigInteger m2 = new BigInteger(m1);
 			        BigInteger c1 = paillier.Encrypt(m2);
 			        options.get(i).setVoteCount(c1.longValue());
-			        options.get(i).setNsquare(paillier.getnSquare().longValue());
-			        options.get(i).setLambda(paillier.getLambda().longValue());
 		    	}
+		    		
+		    	
 		    }
 		}
 		optionRepository.saveAll(options);

@@ -2,6 +2,7 @@ package fyp.evoting.backend.service;
 import java.math.BigInteger;
 import java.util.Random;
 import java.lang.Math;
+
 public class Encryption {
 
     /* p and q are two large primes
@@ -80,29 +81,23 @@ public class Encryption {
      * @param certainty the probability to generate a prime number will exceed (1 - (1/2)^certainty)
      * @return g
      */
-    public BigInteger Keygen(int bitLength, int certainty) 
-    {
-    	this.bitLength = bitLength;
+    public BigInteger KeyGen(int bitLength, int certainty) {
+
+        this.bitLength = bitLength;
 
         /* p and q are primes */
-        this.p = new BigInteger(bitLength/2, certainty, new Random());
-        this.q = new BigInteger(bitLength/2, certainty, new Random());
+        p = new BigInteger(bitLength/2, certainty, new Random());
+        q = new BigInteger(bitLength/2, certainty, new Random());
 
         /* n = p*q */
-        this.n = p.multiply(q);
-        return nSquare = n.multiply(n);
-    }
-    public BigInteger Lambdagen() 
-    {
-    	/* lambda = lcm(p-1, q-1) = (p-1)*(q-1)/gcd(p-1, q-1). */
-        return lambda = ((p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)))
+        n = p.multiply(q);
+        nSquare = n.multiply(n);
+
+        /* lambda = lcm(p-1, q-1) = (p-1)*(q-1)/gcd(p-1, q-1). */
+        lambda = ((p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)))
                 .divide((p.subtract(BigInteger.ONE)).gcd(q.subtract(BigInteger.ONE)));
-    }
-    
-    public BigInteger KeyGen(int bitLength, int certainty) {
-    	this.nSquare=Keygen(bitLength,certainty);
-        this.lambda=Lambdagen();
-        
+
+
         /* g is a random in [0, nSquare), where gcd(L(g^lambda mod n^2), n) = 1.
         *  Attention, if g=2 or small g can speed up encryption.
         * */
@@ -115,25 +110,6 @@ public class Encryption {
             KeyGen(bitLength, certainty);
         }
 
-        u = L(g.modPow(lambda, nSquare)).modInverse(n);
-
-        return g;
-    }
-    
-    public BigInteger KeyGen(BigInteger nsquare, BigInteger lambda) {
-    	this.nSquare=nsquare.abs();
-        this.lambda=lambda;
-        this.n=nSquare.sqrt();
-        /* g is a random in [0, nSquare), where gcd(L(g^lambda mod n^2), n) = 1.
-        *  Attention, if g=2 or small g can speed up encryption.
-        * */
-//        g = new BigInteger(String.valueOf( (int) (Math.random()*randomRange)));
-        g =  new BigInteger("2");
-        
-        if ((g.intValue() < 0) || (L(g.modPow(lambda, nSquare)).gcd(n).intValue() != 1)) {
-//          System.out.println("g is not ok. g = " + g + ". try again.");
-          KeyGen(nsquare,lambda);
-      }
         u = L(g.modPow(lambda, nSquare)).modInverse(n);
 
         return g;
@@ -158,10 +134,6 @@ public class Encryption {
      * @return ciphertext
      */
     public BigInteger Encrypt (BigInteger m) {
-        BigInteger r = new BigInteger(bitLength, new Random());
-        return Encrypt(m, r);
-    }
-    public BigInteger Encrypt (BigInteger m, int bitLength) {
         BigInteger r = new BigInteger(bitLength, new Random());
         return Encrypt(m, r);
     }
@@ -205,10 +177,6 @@ public class Encryption {
     public BigInteger CiperMultiply (BigInteger c1, BigInteger c2) {
         return c1.multiply(c2).mod(nSquare);
     }
-    public BigInteger CiperMultiply (BigInteger c1, BigInteger c2, BigInteger nsquare) {
-        return c1.multiply(c2).mod(nsquare);
-    }
-    
 
 
 /*
@@ -217,6 +185,7 @@ public class Encryption {
         Encryption paillier = new Encryption();
     
         BigInteger key = paillier.KeyGen(32, 64);
+
         Scanner input = new Scanner(System.in);
         
         // Simple voting system, to be taken out when implemented
@@ -243,6 +212,7 @@ public class Encryption {
         }else if (str2.equals("C")) {
         	testing2 = 10000;
         }
+
         System.out.println("Choose one option : A B C ");
         String str3 = input.nextLine();
         
@@ -254,6 +224,7 @@ public class Encryption {
         }else if (str3.equals("C")) {
         	testing3 = 10000;
         }
+
         System.out.println("Choose one option : A B C ");
         String str4 = input.nextLine();
         input.close();
@@ -266,6 +237,7 @@ public class Encryption {
         }else if (str4.equals("C")) {
         	testing4 = 10000;
         }
+
         String testing11 = String.valueOf(testing1);
         String testing22 = String.valueOf(testing2);
         String testing33 = String.valueOf(testing3);
@@ -275,12 +247,15 @@ public class Encryption {
         System.out.println("Voter 2 chooses:" + str2);
         System.out.println("Voter 2 chooses:" + str3);
         System.out.println("Voter 2 chooses:" + str4);
+
         BigInteger m1 = new BigInteger(testing11);
         BigInteger m2 = new BigInteger(testing22);
         BigInteger m3 = new BigInteger(testing33);
         BigInteger m4 = new BigInteger(testing44);
+
         System.out.println("p: " + paillier.getP() + ", q: " + paillier.getQ() + ", n: " + paillier.getN() +
         ", g: " + paillier.getG() + ", lambda: " + paillier.getLambda() + ", u: " + paillier.getU());
+
         /**
          * PROPERTY ONE: additive homomorphic encryption.
          *  E(m1)*E(m2) = E(m1+m2).
@@ -291,15 +266,22 @@ public class Encryption {
         BigInteger c2 = paillier.Encrypt(m2);
         BigInteger c3 = paillier.Encrypt(m3);
         BigInteger c4 = paillier.Encrypt(m4);
+
         BigInteger c = paillier.CiperMultiply(c1, c2);
         BigInteger cc = paillier.CiperMultiply(c3, c4);
         BigInteger ccc = paillier.CiperMultiply(c, cc);
+
         System.out.println("c1(E(m1)): " + c1); 
         System.out.println("c2(E(m2)): " + c2);
         System.out.println("c3(E(m3)): " + c3);
         System.out.println("c4(E(m4)): " + c4);
         System.out.println("c(E(m1)*E(m2)*E(m3)*E(m4)): " + ccc);
+
         System.out.println("Decryption of the product of all encryption: " + paillier.Decrypt(ccc));
+
        
+
 */
     }
+
+
