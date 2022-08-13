@@ -32,6 +32,9 @@ const Header = () => {
               E-Voting App
             </a>
           </div>
+          {show&&<div className="navbar-brand">
+            Welcome {islogin}
+          </div>}
           {show&&<button
             type="button"
             className="btn btn-danger"
