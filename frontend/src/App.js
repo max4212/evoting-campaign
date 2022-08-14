@@ -16,11 +16,11 @@ import CampaignDetails from './components/CampaignDetails/CampaignDetails';
 import { useSelector } from 'react-redux';
 import ModifyCampaign from './components/NewCampaignForm/ModifyCampaignForm';
 
-import Voterpage from './components/Voterpage';
+import VoterListComponentFunctional from './components/VoterListComponentFunctional';
 import Resultpage from './components/Resultpage';
 import Optionpage from './components/Optionpage';
 import ResultComponent from './components/ResultComponent';
-import voteComponent from './components/voteComponent';
+import VoteComponent from './components/VoteComponent';
 import VoterListComponent from './components/VoterListComponent';
 import View from './components/View';
 function App() {
@@ -45,12 +45,11 @@ function App() {
             {isuserlogin&&<Route path='campaignDetails' element={<CampaignDetails/>}></Route>}
             {isuserlogin&&<Route path='campaignModify' element={<ModifyCampaign/>}></Route>}
 
-            {isuserlogin&&<Route path="/voters" element={<Voterpage/>}></Route>}
-            {isuserlogin&&<Route path = "voter" element = {<VoterListComponent/>}></Route>} 
+            {isuserlogin&&<Route path="/voters" element={<VoterListComponentFunctional/>}></Route>}
             {isuserlogin&&<Route path="/Resultpage" element={<Resultpage/>}></Route>}
             {isuserlogin&&campaign&&<Route path = "result" element = {<ResultComponent/>}></Route>}
             {isuserlogin&&<Route path="/Optionpage" element={<Optionpage/>}></Route>}
-            {isuserlogin&&campaign&&<Route path = "voteComponent" element = {<voteComponent/>}></Route>} 
+            {isuserlogin&&campaign&&<Route path = "voteComponent" element = {<VoteComponent/>}></Route>} 
             {isuserlogin&&<Route path = 'View' element = {<View/>}></Route>}      
             </Routes>
           </div>

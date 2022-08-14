@@ -15,7 +15,8 @@ export default function NewUserForm() {
     const [data, setData] = useState({});
    	const navigate = useNavigate();
 
-    const dataChangeHandler = (event) => {
+
+       const dataChangeHandler = (event) => {
         if (event.target.id === 'userName') {
             setUserName(event.target.value);
         }
@@ -45,10 +46,10 @@ export default function NewUserForm() {
                 userType
             })
             navigate("/users");
-        
+            window.location.reload();
 		}
         else if(event.target.id === 'backBtn') {
-            navigate(-1)
+            navigate(-1);
         }
     }
 

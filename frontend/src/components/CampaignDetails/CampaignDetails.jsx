@@ -10,7 +10,7 @@ export default function CampaignDetails() {
 
   const {id,campaignName,campaignStatus,deadline,options,voters}=location.state.campaign;
   const [readOnly, setReadOnly] = useState(true);
-  
+
   useEffect(()=>{
     const fetchData = async()=>{
       const data = await CampaignService.getVoterByCampaign(id);
@@ -56,11 +56,8 @@ export default function CampaignDetails() {
           usagePurpose: "modify",
         },
       });
-    } else if (event.target.id === "launchBtn") {
-
     }
   };
-
 
   return (
     <div className="p-1 my-1">
@@ -69,24 +66,8 @@ export default function CampaignDetails() {
           className="btn btn-info"
           id="modifyBtn"
           onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
         >
           Modify
-        </button>
-        <button 
-          className="btn btn-info"
-          id="launchBtn"
-          onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
-        >
-          Launch
-        </button>
-        <button 
-          className="btn btn-info"
-          id="resultBtn"
-          disabled={campaignStatus!="Closed"}
-        >
-          Results
         </button>
         <button
           className="btn btn-danger"

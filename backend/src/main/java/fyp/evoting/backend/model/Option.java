@@ -27,6 +27,12 @@ public class Option {
 	@Column(name="vote_count", nullable = false)
 	private long voteCount = 0;
 	
+	@Column(name="nsquare", nullable = false)
+	private long nsquare = 2;
+	
+	@Column(name="lambda", nullable = false)
+	private long lambda = 2;
+	
 	public Option() {
 		
 	}
@@ -62,5 +68,16 @@ public class Option {
 	public void setVoteCount(long voteCount) {
 		this.voteCount = voteCount;
 	}
-	
+	public long getNsquare() {
+		return nsquare;
+	}
+	public void setNsquare(long nsquare) {
+		this.nsquare = nsquare;
+	}
+	public long getLambda() {
+		return lambda;
+	}
+	public void setLambda(long lambda) {
+		this.lambda = lambda;
+	}
 }

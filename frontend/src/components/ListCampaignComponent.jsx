@@ -35,6 +35,7 @@ class ListCampaignComponent extends Component {
     CampaignService.launchCampaign(id);
     this.props.navigate("/campaigns");
     localStorage.removeItem("campaign");
+    window.location.reload();
   }
 
   Results(id){

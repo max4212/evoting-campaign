@@ -59,11 +59,12 @@ export default function ModifyUser() {
         userType,
       });
       navigate("/users");
+      window.location.reload();
     } else if (event.target.id === "backBtn") {
       navigate(-1);
     }
   };
-
+  
   return (
     <div className="w-100 pt-10 flex justify-center align-middle">
       <div className="bg-slate-500 container p-10 rounded-md">
