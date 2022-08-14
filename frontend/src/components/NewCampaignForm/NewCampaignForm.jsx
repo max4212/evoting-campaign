@@ -112,11 +112,9 @@ export default function NewCampaignForm() {
                 options: optionsArray
             })
             navigate("/campaigns");
-            window.location.reload();
         }
         else if(event.target.id === 'backBtn') {
-            navigate(-1);
-            window.location.reload();
+            navigate(-1)
         }
     }
 
