@@ -71,6 +71,13 @@ export default function CampaignDetails() {
         >
           Modify
         </button>
+        <button 
+          className="btn btn-info"
+          id="resultBtn"
+          disabled={campaignStatus!="Closed"}
+        >
+          Results
+        </button>
         <button
           className="btn btn-danger"
           id="backBtn"
