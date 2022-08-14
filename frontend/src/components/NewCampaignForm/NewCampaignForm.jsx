@@ -172,6 +172,7 @@ export default function NewCampaignForm() {
                     </div>
                     <div className='form-floating flex flex-col gap-y-1'>
                         {optionsArray.length > 0 && <label className="form-label font-semibold">Options:</label>}
+                        <button type='button' className="btn btn-dark" onClick={dataChangeHandler} id='addNewOption'>Add</button>
                         <div className="flex align-middle gap-x-2 flex-wrap gap-y-2">
                             {optionsArray.map(option => <Option
                                 key={option.id}
@@ -181,7 +182,6 @@ export default function NewCampaignForm() {
                                 setOptionNameHandler={setOptionNameHandler}
                             />)}
                         </div>
-                        <button type='button' className="btn btn-dark" onClick={dataChangeHandler} id='addNewOption'>Add</button>
                     </div>
                     <div className='flex align-middle gap-x-2 mt-2'>
                         <button type='button' className="w-100 btn btn-dark" onClick={dataChangeHandler} id='saveBtn'>Save</button>

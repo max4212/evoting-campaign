@@ -40,6 +40,10 @@ class CampaignService {
     launchCampaign(campaignId){
         return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/launchCampaign');
     }
+	
+    closeCampaign(campaignId){
+        return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/closeCampaign');
+    }
 
     getVoterByCampaign(campaignId){
         return axios.get(CAMPAIGN_API_BASE_URL + '/voters/' + campaignId)

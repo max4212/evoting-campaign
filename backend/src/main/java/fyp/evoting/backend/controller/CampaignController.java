@@ -1,11 +1,13 @@
 package fyp.evoting.backend.controller;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import fyp.evoting.backend.model.*;
 import fyp.evoting.backend.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import fyp.evoting.backend.exception.ResourceNotFoundException;
@@ -173,6 +175,18 @@ public class CampaignController {
 		return ResponseEntity.ok(launchedCampaign);
 	}
 	
+	// close campaign simulation rest api	
+	@PutMapping("/campaigns/{id}/closeCampaign")
+	public ResponseEntity<Campaign> closeCampaign(@PathVariable Long id){
+		Campaign campaign = campaignRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
+		
+		campaign.setCampaignStatus(CampaignStatus.Closed);
+
+		Campaign closedCampaign = campaignRepository.save(campaign);
+		return ResponseEntity.ok(closedCampaign);
+	}
+	
 	// delete campaign rest api
 	@DeleteMapping("/campaigns/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteCampaign(@PathVariable Long id){
@@ -216,5 +230,9 @@ public class CampaignController {
 
 		return ResponseEntity.ok(users);
 	}
+
+
+
+
 		
 }

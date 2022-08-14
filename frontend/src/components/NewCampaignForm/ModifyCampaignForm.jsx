@@ -172,6 +172,14 @@ export default function ModifyCampaign() {
             {optionsArray.length > 0 && (
               <label className="form-label font-semibold">Options:</label>
             )}
+            <button
+              type="button"
+              className="btn btn-dark"
+              onClick={dataChangeHandler}
+              id="addNewOption"
+            >
+              Add
+            </button>
             <div className="flex align-middle gap-x-2 flex-wrap gap-y-2">
               {optionsArray.map((option) => (
                 <Option
@@ -183,14 +191,6 @@ export default function ModifyCampaign() {
                 />
               ))}
             </div>
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={dataChangeHandler}
-              id="addNewOption"
-            >
-              Add
-            </button>
           </div>
           <div className="flex align-middle gap-x-2 mt-2">
             <button

@@ -66,6 +66,7 @@ export default function CampaignDetails() {
           className="btn btn-info"
           id="modifyBtn"
           onClick={dataChangeHandler}
+          disabled={campaignStatus!=="Open"}
         >
           Modify
         </button>

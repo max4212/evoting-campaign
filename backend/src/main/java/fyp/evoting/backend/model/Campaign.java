@@ -32,7 +32,7 @@ public class Campaign {
 	@Enumerated(EnumType.STRING)
    	private CampaignStatus campaignStatus = CampaignStatus.Open;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
