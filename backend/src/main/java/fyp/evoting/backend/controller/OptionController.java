@@ -14,16 +14,6 @@ import fyp.evoting.backend.model.CampaignStatus;
 import fyp.evoting.backend.model.Option;
 import fyp.evoting.backend.repository.CampaignRepository;
 import fyp.evoting.backend.repository.OptionRepository;
-import fyp.evoting.backend.service.Encryption;
-
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -53,17 +43,8 @@ public class OptionController {
 	    if (!campaignRepository.existsById(campaign_id)) {
 	      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 	    }
-	    
-	    Encryption paillier = new Encryption();
-	    BigInteger key = paillier.KeyGen(32, 64);
+	
 	    List<Option> options = optionRepository.findByCampaignId(campaign_id);
-	    for (int i = 0; i < options.size(); i++)
-	    {
-	    	
-	    long m1 = options.get(i).getVoteCount();
-	    BigInteger ccc =BigInteger.valueOf(m1);
-	    options.get(i).setVoteCount(paillier.Decrypt(ccc).longValue());
-	    }
 	    return ResponseEntity.ok(options);
 	}
 		
@@ -74,6 +55,7 @@ public class OptionController {
 				.orElseThrow(() -> new ResourceNotFoundException("Option " + id + " Not Found"));
 		
 		option.setOptionDesc(options.getOptionDesc());
+		option.setVoteCount(options.getVoteCount());
 		
 		Option updatedOption= optionRepository.save(option);
 		return ResponseEntity.ok(updatedOption);
@@ -85,34 +67,12 @@ public class OptionController {
 		if (!campaignRepository.existsById(campaign_id)) {
 		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 		    }
-		Encryption paillier = new Encryption();
 		
 		List<Option> options = optionRepository.findByCampaignId(campaign_id);
 		for (int i = 0; i < options.size(); i++) {
 		    if(choice.equalsIgnoreCase(options.get(i).getOptionDesc())) 
 		    {
-		    	long m3 = options.get(i).getVoteCount();
-		    	if(m3!=0) 
-		    	{
-		    		BigInteger key = paillier.KeyGen(32, 64);
-		    		int m12=1;
-					String m1 =String.valueOf(m12);
-			        BigInteger m2 = new BigInteger(m1);
-			        BigInteger c1 = paillier.Encrypt(m2);
-			        BigInteger c2= paillier.Encrypt(BigInteger.valueOf(m3));
-		    		BigInteger c = paillier.CiperMultiply(c1, c2);
-		    		options.get(i).setVoteCount(c.longValue());
-		    	}else 
-		    	{
-		    		BigInteger key = paillier.KeyGen(32, 64);
-		    		int m12=1;
-					String m1 =String.valueOf(m12);
-			        BigInteger m2 = new BigInteger(m1);
-			        BigInteger c1 = paillier.Encrypt(m2);
-			        options.get(i).setVoteCount(c1.longValue());
-		    	}
-		    		
-		    	
+		    	options.get(i).setVoteCount(options.get(i).getVoteCount()+1);
 		    }
 		}
 		optionRepository.saveAll(options);
