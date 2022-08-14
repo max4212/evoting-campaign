@@ -71,7 +71,11 @@ export default function NewUserForm() {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="userType" className="form-label font-semibold">User Type</label>
-                        <input onChange={dataChangeHandler} type="text" className="form-control" id="userType" value={userType} />
+                        <select onChange={dataChangeHandler} type="text" className="form-control" id="userType" value={userType}>
+                            <option value="Voter" selected>Voter</option>
+                            <option value="Host">Host</option>
+                            <option value="Admin">Admin</option>
+                        </select>
                     </div>
 					
                     <div className='flex align-middle gap-x-2 mt-2'>
