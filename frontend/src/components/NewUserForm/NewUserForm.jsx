@@ -50,6 +50,7 @@ export default function NewUserForm() {
 		}
         else if(event.target.id === 'backBtn') {
             navigate("/users");
+            window.location.reload();
         }
     }
 
