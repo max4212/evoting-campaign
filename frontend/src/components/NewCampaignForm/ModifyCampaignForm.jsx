@@ -84,8 +84,7 @@ export default function ModifyCampaign() {
       navigate("/campaigns");
       window.location.reload();
     } else if (event.target.id === "backBtn") {
-      navigate("/campaigns");
-      window.location.reload();
+      navigate(-1);
     }
   };
 
