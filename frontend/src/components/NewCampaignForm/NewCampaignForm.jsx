@@ -58,7 +58,7 @@ export default function NewCampaignForm() {
 
     useEffect(()=>{
         const fetchData = async ()=>{
-            const userData = await UserService.getUsers();
+            const userData = await UserService.getAllVoters();
             // console.log(userData.data);
             setSearchData(userData.data)
         }
