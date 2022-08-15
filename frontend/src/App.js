@@ -23,6 +23,7 @@ import ResultComponent from './components/ResultComponent';
 import VoteComponent from './components/VoteComponent';
 import VoterListComponent from './components/VoterListComponent';
 import View from './components/View';
+
 function App() {
   const isLogin = useSelector((state)=>state.user.authenticated);
   const isuserlogin = localStorage.getItem("inputValue");
@@ -49,7 +50,7 @@ function App() {
             {isuserlogin&&<Route path="/Resultpage" element={<Resultpage/>}></Route>}
             {isuserlogin&&campaign&&<Route path = "result" element = {<ResultComponent/>}></Route>}
             {isuserlogin&&<Route path="/Optionpage" element={<Optionpage/>}></Route>}
-            {isuserlogin&&campaign&&<Route path = "voteComponent" element = {<VoteComponent/>}></Route>} 
+            {isuserlogin&&campaign&&<Route path = "VoteComponent" element = {<VoteComponent/>}></Route>} 
             {isuserlogin&&<Route path = 'View' element = {<View/>}></Route>}      
             </Routes>
           </div>
