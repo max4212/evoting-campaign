@@ -38,6 +38,14 @@ class ListCampaignComponent extends Component {
     window.location.reload();
   }
 
+  closeCampaign(id) {
+    localStorage.setItem("campaign",id);
+    CampaignService.closeCampaign(id);
+    this.props.navigate("/campaigns");
+    localStorage.removeItem("campaign");
+    window.location.reload();
+  }
+
   Results(id){
     localStorage.setItem("campaign",id);
     this.props.navigate("/Resultpage");
@@ -85,7 +93,19 @@ class ListCampaignComponent extends Component {
       {
       return 'false'
       }
-    }else if(type==="delete")
+    }
+    else if(type==="close")
+    {
+      if(status==="Pending")
+      {
+      return ''
+      }
+      else 
+      {
+      return 'false'
+      }
+    }
+    else if(type==="delete")
     {
       if(status==="Open")
       {
@@ -142,6 +162,15 @@ class ListCampaignComponent extends Component {
                       disabled={this.compare(campaign.campaignStatus,"launch")}
                     >
                       Launch{" "}
+                    </button>
+                    <button 
+                      style={{ marginLeft: "10px" }}
+                      onClick={ () => this.closeCampaign(campaign.id)} 
+                      className="btn btn-info"
+                      id="closeBtn"
+                      disabled={this.compare(campaign.campaignStatus,"close")}
+                    >
+                      Close{" "}
                     </button>
                     <button style={{marginLeft: "10px"}} 
                     onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
