@@ -73,7 +73,8 @@ export default function NewUserForm() {
                     <div className="mb-3">
                         <label htmlFor="userType" className="form-label font-semibold">User Type</label>
                         <select onChange={dataChangeHandler} type="text" className="form-control" id="userType" value={userType}>
-                            <option value="Voter" selected>Voter</option>
+                            <option value="" disabled selected>Select UserType</option>
+                            <option value="Voter">Voter</option>
                             <option value="Host">Host</option>
                             <option value="Admin">Admin</option>
                         </select>
