@@ -16,6 +16,12 @@ export default function ModifyCampaign() {
   const [campaignName, setCampaignName] = useState(
     location.state ? location.state.campaignName : ""
   );
+  const [campaignInfo, setCampaignInfo] = useState(
+    location.state ? location.state.campaignInfo : ""
+  );
+  const [campaignMedia, setCampaignMedia] = useState(
+    location.state ? location.state.campaignMedia : ""
+  );
   const [deadline, setDeadline] = useState(
     location.state ? location.state.deadline : ""
   );
@@ -41,6 +47,10 @@ export default function ModifyCampaign() {
   const dataChangeHandler = (event) => {
     if (event.target.id === "campaignName") {
       setCampaignName(event.target.value);
+    } else if (event.target.id === "campaignInfo") {
+      setCampaignInfo(event.target.value);
+    } else if (event.target.id === "campaignMedia") {
+      setCampaignMedia(event.target.value);
     } else if (event.target.id === "deadline") {
       setDeadline(event.target.value);
     } else if (event.target.id === "addNewOption") {
@@ -66,6 +76,8 @@ export default function ModifyCampaign() {
       console.log(optData);
       const campaign = {
         campaignName: campaignName,
+        campaignInfo: campaignInfo,
+        campaignMedia: campaignMedia,
         deadline: deadline,
         options: optData,
         voters: voterData,
@@ -77,6 +89,8 @@ export default function ModifyCampaign() {
       CampaignService.updateCampaign(campaign, location.state.id);
       setData({
         campaignName,
+        campaignInfo,
+        campaignMedia,
         deadline,
         voters: votersArray,
         options: optionsArray,
@@ -135,6 +149,30 @@ export default function ModifyCampaign() {
               className="form-control"
               id="campaignName"
               value={campaignName}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="campaignInfo" className="form-label font-semibold">
+              Campaign Information
+            </label>
+            <input
+              onChange={dataChangeHandler}
+              type="text"
+              className="form-control"
+              id="campaignInfo"
+              value={campaignInfo}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="campaignMedia" className="form-label font-semibold">
+              Campaign Media
+            </label>
+            <input
+              onChange={dataChangeHandler}
+              type="text"
+              className="form-control"
+              id="campaignMedia"
+              value={campaignMedia}
             />
           </div>
           <div className="mb-3">

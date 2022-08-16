@@ -60,6 +60,14 @@ public class CampaignController {
 			saveCampaign.setCampaignName(campaignRequest.getCampaignName());
 		}
 
+		if(null!=campaignRequest.getCampaignInfo()) {
+			saveCampaign.setCampaignInfo(campaignRequest.getCampaignInfo());
+		}
+
+		if(null!=campaignRequest.getCampaignMedia()) {
+			saveCampaign.setCampaignMedia(campaignRequest.getCampaignMedia());
+		}
+
 		if(null!=campaignRequest.getDeadline()) {
 			saveCampaign.setDeadline(campaignRequest.getDeadline());
 		}
@@ -155,6 +163,8 @@ public class CampaignController {
 			}
 		}*//*
 		campaign.setCampaignName(campaignDetails.getCampaignName());
+		campaign.setCampaignInfo(campaignDetails.getCampaignInfo());
+		campaign.setCampaignMedia(campaignDetails.getCampaignMedia());
 		campaign.setDeadline(campaignDetails.getDeadline());
 		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
 		campaign.setOptions(optionsList);

@@ -19,6 +19,10 @@ public class CampaignRequest {
 
     private String campaignName;
 
+    private String campaignInfo;
+    
+    private String campaignMedia;
+
     private Date deadline;
 
     private CampaignStatus campaignStatus = CampaignStatus.Open;

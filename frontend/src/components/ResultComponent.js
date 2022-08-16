@@ -47,6 +47,28 @@ class ResultComponent extends React.Component
             this.setState({voter: res.data});
         })
     }
+    
+    media(campaignMedia)
+    {
+        if(typeof(campaignMedia)==="string"){
+        if(campaignMedia.startsWith("http"))
+        {
+            return <a href={campaignMedia}>
+            <img src={campaignMedia} alt ={campaignMedia} height="200px" width="200px"/>
+            </a>
+        }else
+        {
+            return <input
+                type="text"
+                class="form-control"
+                id="campaignMedia"
+                placeholder="Campaign Media"
+                value={campaignMedia}
+                readOnly
+            />
+        }
+        }
+    }
 
     back(){
         this.props.navigate(-1);
@@ -90,6 +112,25 @@ class ResultComponent extends React.Component
                         value={this.state.campaign.campaignName}
                         readOnly
                     />
+                </div>
+                <div class="mb-3">
+                    <label for="campaignInfo" class="form-label">
+                        Campaign Information
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="campaignInfo"
+                        placeholder="Campaign Info"
+                        value={this.state.campaign.campaignInfo}
+                        readOnly
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="campaignMedia" class="form-label">
+                    Campaign Media
+                    </label>
+                    {this.media(this.state.campaign.campaignMedia)}
                 </div>
                 <div class="mb-3">
                     <label for="deadline" class="form-label">

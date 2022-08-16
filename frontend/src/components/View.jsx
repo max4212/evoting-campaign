@@ -9,7 +9,7 @@ export default function View() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const {id,campaignName,campaignStatus,deadline,options,voters}=location.state.campaign;
+  const {id,campaignName,campaignInfo, campaignMedia,campaignStatus,deadline,options,voters}=location.state.campaign;
   const [readOnly, setReadOnly] = useState(true);
 
   useEffect(()=>{
@@ -19,6 +19,28 @@ export default function View() {
     }
     fetchData();
   },[])  
+
+  function media(campaignMedia)
+  {
+    if(typeof(campaignMedia)==="string"){
+      if(campaignMedia.startsWith("http"))
+      {
+        return <a href={campaignMedia}>
+        <img src={campaignMedia} alt ={campaignMedia} height="200px" width="200px"/>
+        </a>
+      }else
+      {
+        return <input
+              type="text"
+              class="form-control"
+              id="campaignMedia"
+              placeholder="Campaign Media"
+              value={campaignMedia}
+              readOnly
+            />
+      }
+    }
+  }
 
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
@@ -53,14 +75,33 @@ export default function View() {
             />
           </div>
           <div class="mb-3">
-            <label for="campaignDetails" class="form-label">
-              Campaign Details
+            <label for="campaignInfo" class="form-label">
+              Campaign Information
             </label>
             <input
               type="text"
               class="form-control"
-              id="campaignDetails"
-              placeholder="Campaign Details"
+              id="campaignInfo"
+              placeholder="Campaign Info"
+              readOnly={readOnly}
+              value={campaignInfo}
+            />
+          </div>
+          <div class="mb-3">
+            <label for="campaignMedia" class="form-label">
+              Campaign Media
+            </label>
+            {media(campaignMedia)}
+          </div>
+          <div class="mb-3">
+            <label for="campaignStatus" class="form-label">
+              Campaign Status
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="campaignStatus"
+              placeholder="Campaign Status"
               readOnly={readOnly}
               value={campaignStatus}
             />

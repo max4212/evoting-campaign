@@ -27,18 +27,18 @@ class voteComponent extends React.Component
     title(campaign)
     {
       if(typeof(campaign)==="string"){
-      if(campaign.startsWith("http"))
-      {
-        return <a href={campaign}>
-        <img src={campaign} alt ={campaign} height="200px" width="200px"/>
-        </a>
-      }else
-      {
-        return <h1 className="text-center">
-          {campaign}
-          </h1>
+        if(campaign.startsWith("http"))
+        {
+          return <a href={campaign}>
+          <img src={campaign} alt ={campaign} height="200px" width="200px"/>
+          </a>
+        }else
+        {
+          return <div className="text">
+            {campaign}
+            </div>
+        }
       }
-    }
     }
 
   update()
@@ -80,10 +80,20 @@ render() {
   return (     
     <div>
       <button className="btn btn-danger" onClick={this.back.bind(this)} style={{marginTop: "10px",width: "100px"}}>Back</button>
-      <h1 className="text-center">
-      {this.title(this.state.campaign.campaignName)}
-      </h1>
-      <body className="text-center">
+      <div>
+        <h1 className="text">
+          {this.title(this.state.campaign.campaignName)}
+        </h1>
+      </div>
+      <br/>
+      <div>
+          {this.title(this.state.campaign.campaignInfo)}
+      </div>
+      <div>
+          {this.title(this.state.campaign.campaignMedia)}
+      </div>
+      <br/><br/>
+      <body className="text">
       {
         this.state.options.map((item) => 
         <p key={item}>

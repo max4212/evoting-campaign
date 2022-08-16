@@ -24,6 +24,12 @@ public class Campaign {
 	@Column(name="campaign_name", nullable = false)
 	private String campaignName;
 	
+	@Column(name="campaign_info", nullable = true)
+	private String campaignInfo;
+	
+	@Column(name="campaign_media", nullable = true)
+	private String campaignMedia;
+	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="closing_date", nullable = false)	
 	private Date deadline;
@@ -62,10 +68,12 @@ public class Campaign {
 		
 	}
 	
-	public Campaign(String campaignName, Date deadline, CampaignStatus campaignStatus, User user,
+	public Campaign(String campaignName, String campaignInfo, String campaignMedia, Date deadline, CampaignStatus campaignStatus, User user,
 			List<Option> options, List<Voter> voters) {
 		super();
 		this.campaignName = campaignName;
+		this.campaignInfo = campaignInfo;
+		this.campaignMedia = campaignMedia;
 		this.deadline = deadline;
 		this.campaignStatus = campaignStatus;
 		this.user = user;
@@ -85,6 +93,18 @@ public class Campaign {
 	}
 	public void setCampaignName(String campaignName) {
 		this.campaignName = campaignName;
+	}
+	public String getCampaignInfo() {
+		return campaignInfo;
+	}
+	public void setCampaignInfo(String campaignInfo) {
+		this.campaignInfo = campaignInfo;
+	}
+	public String getCampaignMedia() {
+		return campaignMedia;
+	}
+	public void setCampaignMedia(String campaignMedia) {
+		this.campaignMedia = campaignMedia;
 	}
 	public Date getDeadline() {
 		return deadline;
