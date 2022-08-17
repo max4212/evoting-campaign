@@ -4,11 +4,16 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
 
+const getLogState = (onLoad) => {
+  UserService.getUserById(localStorage.getItem("inputValue")).then((res) => this.setLogged({ user: res.data }));
+}
+
 const Header = () => {
     const [show,setShow]=useState(false);
     const navigate = useNavigate();
 
     const islogin = localStorage.getItem("inputValue");
+
   
     useEffect(()=>{
         if(islogin){
@@ -19,7 +24,6 @@ const Header = () => {
     },[islogin])
 
     const viewUser =()=>{
-      navigate("/userView", logged);
     }
 
     const removeItem =()=>{
