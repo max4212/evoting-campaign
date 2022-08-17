@@ -9,6 +9,8 @@ import ListUserComponentFunctional from './components/ListUserComponentFunctiona
 import NewUserForm from './components/NewUserForm/NewUserForm';
 import UserDetails from './components/UserDetails/UserDetails';
 import ModifyUser from './components/NewUserForm/ModifyUserForm';
+import UserView from './components/UserDetails/UserView';
+import ModifyOwn from './components/NewUserForm/ModifyOwnForm';
 
 import ListCampaignComponentFunctional from './components/ListCampaignComponentFunctional';
 import NewCampaignForm from './components/NewCampaignForm/NewCampaignForm';
@@ -22,7 +24,7 @@ import Optionpage from './components/Optionpage';
 import ResultComponent from './components/ResultComponent';
 import VoteComponent from './components/VoteComponent';
 import VoterListComponent from './components/VoterListComponent';
-import View from './components/View';
+import View from './components/CampaignDetails/VoterView';
 
 function App() {
   const isLogin = useSelector((state)=>state.user.authenticated);
@@ -40,6 +42,8 @@ function App() {
             {isuserlogin&&<Route path="newUserForm" element={<NewUserForm/>}></Route>}
             {isuserlogin&&<Route path='userDetails' element={<UserDetails/>}></Route>}
             {isuserlogin&&<Route path='userModify' element={<ModifyUser/>}></Route>}
+            {isuserlogin&&<Route path='userView' element={<UserView/>}></Route>}
+            {isuserlogin&&<Route path='modifyOwn' element={<ModifyOwn/>}></Route>}
 
             {isuserlogin&&<Route path="/campaigns" element={<ListCampaignComponentFunctional />}></Route>}
             {isuserlogin&&<Route path="newCampaignForm" element={<NewCampaignForm/>}></Route>}

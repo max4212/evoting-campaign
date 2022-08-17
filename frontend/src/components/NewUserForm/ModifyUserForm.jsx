@@ -39,27 +39,38 @@ export default function ModifyUser() {
     } else if (event.target.id === "userType") {
       setUserType(event.target.value);
     } else if (event.target.id === "saveBtn") {
-      // console.log(user)
+      if(userName === "")
+			{window.confirm('Please Enter a User Name');}
+			else if(userPW === "")
+			{window.confirm('Please Enter a Password');}
+      else if(email === "")
+			{window.confirm('Please Enter an Email');}
+			else if(userType === "")
+			{window.confirm('Please Select a User Type');}
+			else
+      {
+        // console.log(user)
 
-      const user = {
-        userName: userName,
-        userPW: userPW,
-        email: email,
-        userType: userType,
-      };
-      console.log(user);
-      //   UserService.createUser(user.id, user).then((res) => {
-      //     console.log(res);
-      //   });
-      UserService.updateUser(user, location.state.id);
-      setData({
-        userName,
-        userPW,
-        email,
-        userType,
-      });
-      navigate("/users");
-      window.location.reload();
+        const user = {
+          userName: userName,
+          userPW: userPW,
+          email: email,
+          userType: userType,
+        };
+        console.log(user);
+        //   UserService.createUser(user.id, user).then((res) => {
+        //     console.log(res);
+        //   });
+        UserService.updateUser(user, location.state.id);
+        setData({
+          userName,
+          userPW,
+          email,
+          userType,
+        });
+        navigate("/users");
+        window.location.reload();
+      }
     } else if (event.target.id === "backBtn") {
       navigate(-1);
     }

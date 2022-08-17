@@ -89,34 +89,41 @@ export default function NewCampaignForm() {
             }
         }
         else if (event.target.id === 'saveBtn') {
-            setReadonlyDeadline(true);
-            // console.log(user)
-           
-            const voterData = votersArray.map((item)=>{return{user:item.id,voteStatus:"Pending"}});
-            const optData = optionsArray.map((item)=>{return{optionDesc: item.optionName,voteCount:"0"}});
-            console.log(voterData);
-            console.log(optData);
-            const campaign = {
-                campaignName:campaignName,
-                campaignInfo: campaignInfo,
-                campaignMedia: campaignMedia,
-                deadline:deadline,
-                options:optData,
-                voters:voterData
-            }
-            const userid = localStorage.getItem("inputValue");
-            CampaignService.createCampaign(userid,campaign).then((res)=>{console.log(res)});
-            setData({
-                campaignName,
-                campaignInfo, 
-                campaignMedia,
-                deadline,
-                voters: votersArray,
-                options: optionsArray
-            })
-            navigate("/campaigns");
-            window.location.reload();
-        }
+			if(campaignName === "")
+			{window.confirm('Please Enter a Campaign Name');}
+			else if(deadline === "")
+			{window.confirm('Please Enter a Deadline');}
+			else
+			{
+				setReadonlyDeadline(true);
+				// console.log(user)
+			   
+				const voterData = votersArray.map((item)=>{return{user:item.id,voteStatus:"Pending"}});
+				const optData = optionsArray.map((item)=>{return{optionDesc: item.optionName,voteCount:"0"}});
+				console.log(voterData);
+				console.log(optData);
+				const campaign = {
+					campaignName:campaignName,
+					campaignInfo: campaignInfo,
+					campaignMedia: campaignMedia,
+					deadline:deadline,
+					options:optData,
+					voters:voterData
+				}
+				const userid = localStorage.getItem("inputValue");
+				CampaignService.createCampaign(userid,campaign).then((res)=>{console.log(res)});
+				setData({
+					campaignName,
+					campaignInfo, 
+					campaignMedia,
+					deadline,
+					voters: votersArray,
+					options: optionsArray
+				})
+				navigate("/campaigns");
+				window.location.reload();
+			}
+		}
         else if(event.target.id === 'backBtn') {
             navigate("/campaigns");
             window.location.reload();

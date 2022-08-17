@@ -128,7 +128,8 @@ class ListCampaignComponent extends Component {
             Add Campaign
           </button>
         </div>
-        <br></br>
+        <br>
+        </br>
         <div className="row">
           <table className="table table-striped table-bordered">
             <thead>

@@ -17,7 +17,7 @@ export default function UserDetails() {
 //   const userDetails = users.find(
 //     (user) => user.id === userId
 //   ).userPW;
-//   const emao; = users.find(
+//   const email; = users.find(
 //     (user) => user.id === userId
 //   ).email;
 //   const userType = users.find(

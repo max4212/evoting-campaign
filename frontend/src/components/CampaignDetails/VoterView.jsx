@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CampaignService from "../services/CampaignService";
+import CampaignService from "../../services/CampaignService";
 
 export default function View() {
   const [voterUser,setVoterUser] = useState([]); 

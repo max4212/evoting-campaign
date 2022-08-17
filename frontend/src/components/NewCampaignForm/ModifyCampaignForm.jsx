@@ -63,40 +63,47 @@ export default function ModifyCampaign() {
         ]);
       }
     } else if (event.target.id === "saveBtn") {
-      setReadonlyDeadline(true);
-      // console.log(user)
+      if(campaignName === "")
+			{window.confirm('Please Enter a Campaign Name');}
+			else if(deadline === "")
+			{window.confirm('Please Enter a Deadline');}
+			else
+			{
+        setReadonlyDeadline(true);
+        // console.log(user)
 
-      const voterData = votersArray.map((item) => {
-        return { user: item.id, voteStatus: "Pending" };
-      });
-      const optData = optionsArray.map((item) => {
-        return { optionDesc: item.optionDesc, voteCount: "0" };
-      });
-      console.log(voterData);
-      console.log(optData);
-      const campaign = {
-        campaignName: campaignName,
-        campaignInfo: campaignInfo,
-        campaignMedia: campaignMedia,
-        deadline: deadline,
-        options: optData,
-        voters: voterData,
-      };
-      console.log(campaign);
-      //   CampaignService.createCampaign(user.id, campaign).then((res) => {
-      //     console.log(res);
-      //   });
-      CampaignService.updateCampaign(campaign, location.state.id);
-      setData({
-        campaignName,
-        campaignInfo,
-        campaignMedia,
-        deadline,
-        voters: votersArray,
-        options: optionsArray,
-      });
-      navigate("/campaigns");
-      window.location.reload();
+        const voterData = votersArray.map((item) => {
+          return { user: item.id, voteStatus: "Pending" };
+        });
+        const optData = optionsArray.map((item) => {
+          return { optionDesc: item.optionDesc, voteCount: "0" };
+        });
+        console.log(voterData);
+        console.log(optData);
+        const campaign = {
+          campaignName: campaignName,
+          campaignInfo: campaignInfo,
+          campaignMedia: campaignMedia,
+          deadline: deadline,
+          options: optData,
+          voters: voterData,
+        };
+        console.log(campaign);
+        //   CampaignService.createCampaign(user.id, campaign).then((res) => {
+        //     console.log(res);
+        //   });
+        CampaignService.updateCampaign(campaign, location.state.id);
+        setData({
+          campaignName,
+          campaignInfo,
+          campaignMedia,
+          deadline,
+          voters: votersArray,
+          options: optionsArray,
+        });
+        navigate("/campaigns");
+        window.location.reload();
+      }
     } else if (event.target.id === "backBtn") {
       navigate(-1);
     }
