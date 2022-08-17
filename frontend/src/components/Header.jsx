@@ -1,14 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UserService from "../services/UserService";
+
 
 const Header = () => {
     const [show,setShow]=useState(false);
     const navigate = useNavigate();
 
     const islogin = localStorage.getItem("inputValue");
- 
+
+    const [state, setState]=useState("user:");
+  
     useEffect(()=>{
         if(islogin){
             setShow(true);
@@ -16,6 +20,13 @@ const Header = () => {
             setShow(false);
         }
     },[islogin])
+
+    const viewUser =()=>{
+      UserService.getUserById(localStorage.getItem("inputValue")).then((res)=>{
+        setState({user: res.data})}
+      );
+      navigate("/userView", state);
+    }
 
     const removeItem =()=>{
         navigate("/");
@@ -32,13 +43,23 @@ const Header = () => {
               E-Voting App
             </a>
           </div>
-          {show&&<button
-            type="button"
-            className="btn btn-danger"
-            onClick={removeItem}
-          >
-            Logout
-          </button>}
+          {show&&<div>
+            <button
+              type="button"
+              className="btn btn-info"
+              onClick={viewUser}
+            >
+              Profile
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{ marginLeft: "10px" }}
+              onClick={removeItem}
+            >
+              Logout
+            </button>
+          </div>}
         </nav>
       </header>
     </div>
