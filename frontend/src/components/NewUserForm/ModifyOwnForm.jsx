@@ -84,20 +84,17 @@ export default function ModifyOwn() {
         }
       }
     } else if (event.target.id === "backBtn") {
-      if(user.userType == "Admin")
+      if(userType === "Admin")
       {
         navigate("/users");
-        window.location.reload();
       }
-      else if(user.userType == "Host")
+      else if(userType === "Host")
       {
         navigate("/campaigns");
-        window.location.reload();
       }
       else
       {
         navigate("/voters");
-        window.location.reload();
       }
     }
   };
