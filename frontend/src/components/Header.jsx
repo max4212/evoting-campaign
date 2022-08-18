@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UserService from "../services/UserService";
 
 const Header = () => {
     const [show,setShow]=useState(false);
     const navigate = useNavigate();
-
     const islogin = localStorage.getItem("inputValue");
 
     useEffect(()=>{
@@ -23,7 +21,7 @@ const Header = () => {
     }
 
     const removeItem =()=>{
-        navigate("/");
+        navigate("/", { replace: true });
         localStorage.removeItem("inputValue");
         localStorage.removeItem("logged");
         localStorage.clear();
