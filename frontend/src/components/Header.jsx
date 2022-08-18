@@ -11,6 +11,7 @@ const getLogState = (onLoad) => {
 const Header = () => {
     const [show,setShow]=useState(false);
     const navigate = useNavigate();
+    const [user, setUser] = [];
 
     const islogin = localStorage.getItem("inputValue");
 
@@ -23,7 +24,11 @@ const Header = () => {
         }
     },[islogin])
 
-    const viewUser =()=>{
+    const userView =()=>{
+      UserService.getUserById(islogin).then( (res) => {
+        this.setUser({ user: res.data }); 
+      });
+      navigate("/userView", {user});
     }
 
     const removeItem =()=>{
@@ -45,7 +50,7 @@ const Header = () => {
             <button
               type="button"
               className="btn btn-info"
-              onClick={viewUser}
+              onClick={userView}
             >
               Profile
             </button>

@@ -3,13 +3,11 @@ import { useState } from "react";
 import React, { useLocation, useNavigate } from "react-router-dom";
 import UserService from "../../services/UserService";
 
-export default function UserDetails() {
+export default function UserView() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [logged, setLogged] = useState("user: ");
   
-  const {id,userName,userPW,email}=this.logged.user;
+  const {id,userName,userPW,email,userType}=location.state.user;
   const [readOnly, setReadOnly] = useState(true);
 
   const dataChangeHandler = (event) => {
@@ -22,7 +20,8 @@ export default function UserDetails() {
           userName,
           userPW,
           email,
-		  usagePurpose: "modify",
+          userType,
+    		  usagePurpose: "modify",
         },
       });
     }

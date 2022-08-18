@@ -19,6 +19,9 @@ export default function ModifyOwn() {
   const [email, setEmail] = useState(
     location.state ? location.state.email : ""
   );
+  const [userType, setUserType] = useState(
+    location.state ? location.state.userType : ""
+  );
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
@@ -48,6 +51,7 @@ export default function ModifyOwn() {
           userName: userName,
           userPW: userPW,
           email: email,
+          userType: userType,
         };
         console.log(user);
         //   UserService.createUser(user.id, user).then((res) => {
@@ -58,6 +62,7 @@ export default function ModifyOwn() {
           userName,
           userPW,
           email,
+          userType,
         });
         navigate("/users");
         window.location.reload();
