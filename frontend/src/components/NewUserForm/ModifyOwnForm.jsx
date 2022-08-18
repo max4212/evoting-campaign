@@ -7,8 +7,8 @@ import UserService from "../../services/UserService";
 
 export default function ModifyOwn() {
   const location = useLocation();
-  const [userId, setUserId] = useState(
-    location.state ? location.state.userId : null
+  const [id, setId] = useState(
+    location.state ? location.state.id : ""
   );
   const [userName, setUserName] = useState(
     location.state ? location.state.userName : ""
@@ -46,8 +46,9 @@ export default function ModifyOwn() {
 			else
       {
         // console.log(user)
-
+        localStorage.removeItem("logged");
         const user = {
+          id: location.state.id,
           userName: userName,
           userPW: userPW,
           email: email,
@@ -57,18 +58,47 @@ export default function ModifyOwn() {
         //   UserService.createUser(user.id, user).then((res) => {
         //     console.log(res);
         //   });
-        UserService.updateUser(user, location.state.id);
+        UserService.updateUser(user, user.id);
         setData({
+          id,
           userName,
           userPW,
           email,
           userType,
         });
+        localStorage.setItem("logged", JSON.stringify(user));
+        if(user.userType == "Admin")
+        {
+          navigate("/users");
+          window.location.reload();
+        }
+        else if(user.userType == "Host")
+        {
+          navigate("/campaigns");
+          window.location.reload();
+        }
+        else
+        {
+          navigate("/voters");
+          window.location.reload();
+        }
+      }
+    } else if (event.target.id === "backBtn") {
+      if(user.userType == "Admin")
+      {
         navigate("/users");
         window.location.reload();
       }
-    } else if (event.target.id === "backBtn") {
-      navigate(-1);
+      else if(user.userType == "Host")
+      {
+        navigate("/campaigns");
+        window.location.reload();
+      }
+      else
+      {
+        navigate("/voters");
+        window.location.reload();
+      }
     }
   };
   

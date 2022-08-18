@@ -3,16 +3,27 @@ import { useState } from "react";
 import React, { useLocation, useNavigate } from "react-router-dom";
 import UserService from "../../services/UserService";
 
-export default function UserView() {
-  const location = useLocation();
+export default function UserView() {  
   const navigate = useNavigate();
   
-  const {id,userName,userPW,email,userType}=location.state.user;
+  const {id,userName,userPW,email,userType}=JSON.parse(localStorage.getItem("logged"));
   const [readOnly, setReadOnly] = useState(true);
 
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
-      navigate("/users");
+      if(userType == "Admin")
+      {
+        navigate("/users");
+        window.location.reload();
+      } else if(userType == "Host")
+      {
+        navigate("/campaigns");
+        window.location.reload();
+      } else
+      {
+        navigate("/voters");
+        window.location.reload();
+      }
     } else if (event.target.id === "modifyBtn") {
       navigate("/modifyOwn", {
         state: {

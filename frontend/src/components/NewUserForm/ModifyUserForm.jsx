@@ -57,6 +57,7 @@ export default function ModifyUser() {
           email: email,
           userType: userType,
         };
+        const logged = JSON.parse(localStorage.getItem("logged"));
         console.log(user);
         //   UserService.createUser(user.id, user).then((res) => {
         //     console.log(res);
@@ -68,11 +69,26 @@ export default function ModifyUser() {
           email,
           userType,
         });
-        navigate("/users");
-        window.location.reload();
+        if(location.state.id == logged.id)
+        {
+          localStorage.removeItem("logged");
+          const log = {
+            id: location.state.id,
+            userName: userName,
+            userPW: userPW,
+            email: email,
+            userType: userType,
+          };
+          localStorage.setItem("logged", JSON.stringify(log));
+          navigate("/users");
+          window.location.reload();
+        } else {
+          navigate("/users");
+          window.location.reload();
+        }
       }
     } else if (event.target.id === "backBtn") {
-      navigate(-1);
+      navigate("/users");
     }
   };
   

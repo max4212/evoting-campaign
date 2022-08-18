@@ -28,6 +28,7 @@ export default function Login() {
             if(existinguser){
                 if(existinguser.userPW===password){
                     localStorage.setItem("inputValue",existinguser.id);
+                    localStorage.setItem("logged", JSON.stringify(existinguser));
                     dispatch(userActions.setUser(existinguser));
                     dispatch(userActions.setLogin());
                     if(existinguser.userType==="Admin"){
